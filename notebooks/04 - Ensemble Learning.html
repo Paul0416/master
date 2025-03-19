@@ -192,6 +192,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../labs/Lab%201b%20-%20Linear%20Models%20for%20Classification.html">Lab 1b: Linear classification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../labs/Lab%203a%20-%20Ensembles.html">Lab 3: Ensembles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../labs/Lab%203b%20-%20Pipelines.html">Lab 4:  Data preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../labs/Lab%204%20-%20Neural%20Networks.html">Lab 4: Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../labs/Lab%205%20-%20Convolutional%20Neural%20Networks.html">Lab 7a: Convolutional neural nets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../labs/Lab%206%20-%20Transformers.html">Lab 7b: Neural Networks for text</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="nav bd-sidenav">
@@ -206,6 +209,7 @@
 
 <li class="toctree-l1"><a class="reference internal" href="../labs/Lab%202%20-%20Tutorial.html">Lab 2: Model Selection in scikit-learn</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../labs/Lab%203%20-%20Tutorial.html">Lab 4: Data engineering pipelines with scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../labs/Lab%204%20-%20Tutorial.html">Lab 4: Deep Learning with PyTorch</a></li>
 </ul>
 
     </div>
@@ -587,6 +591,7 @@
     <span class="k">for</span> <span class="n">prob</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">y_probs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">y_probs</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">y_probs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)],</span> <span class="n">scores</span><span class="p">,</span> <span class="n">titles</span><span class="p">,</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()):</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">y_grid</span><span class="p">,</span> <span class="n">prob</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.4</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_train</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">7</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_test</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bwr&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="se">\n</span><span class="s2"> acc=</span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -594,7 +599,7 @@
 </div>
 </details>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "c15a4abf7ba74405b6aeca047554675f", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "2b4a6628ab3c4cf9b85aaf2fa9004fa0", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -674,7 +679,7 @@
 </div>
 </details>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9f15f626109f4394981d7e1402b2d0de", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ae4f1db0d9974b258dabc88060451674", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -1013,7 +1018,7 @@
 </div>
 </details>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "b483bc61097347f0a8844d096b9907ea", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "00347e6e1589461b81fa95315baf6163", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -1513,7 +1518,7 @@ $<span class="math notranslate nohighlight">\(\mathcal{L}_{Logistic} = \sum_{n=1
 </div>
 </details>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "97a8756300504d83ad697d6e2dbf91a5", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "aff27f1b0b954ecba8446a689420fa47", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -1695,7 +1700,7 @@ $<span class="math notranslate nohighlight">\(r_i = -\frac{\partial \mathcal{L}}
 </div>
 </details>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "6062f6edcb704a0db297d30a5149cbab", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "54601ccd01a6491b82b2c628d28983e4", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -1796,7 +1801,7 @@ $<span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L}}{\parti
 </div>
 </details>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ccf3a726132548b88359af62e7fc6f09", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3a4108dd79ea4935b7b82bfeed1e098f", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">

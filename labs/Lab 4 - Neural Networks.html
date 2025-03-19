@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Lab 6: Neural networks &#8212; ML Engineering</title>
+    <title>Lab 4: Neural networks &#8212; ML Engineering</title>
   
   
   
@@ -64,6 +64,8 @@
     <link rel="icon" href="../_static/favicon.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lab 7a: Convolutional neural nets" href="Lab%205%20-%20Convolutional%20Neural%20Networks.html" />
+    <link rel="prev" title="Lab 4: Data preprocessing" href="Lab%203b%20-%20Pipelines.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -114,8 +116,6 @@
     <div class="bd-container__inner bd-page-width">
       
       
-      
-        
       
       <dialog id="pst-primary-sidebar-modal"></dialog>
       <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
@@ -185,11 +185,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../notebooks/08%20-%20Transformers.html">Lecture 8. Neural Networks for text</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="Lab%201a%20-%20Linear%20Models%20for%20Regression.html">Lab 1a: Linear regression</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lab%201b%20-%20Linear%20Models%20for%20Classification.html">Lab 1b: Linear classification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lab%203a%20-%20Ensembles.html">Lab 3: Ensembles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lab%203b%20-%20Pipelines.html">Lab 4:  Data preprocessing</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lab 4: Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lab%205%20-%20Convolutional%20Neural%20Networks.html">Lab 7a: Convolutional neural nets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lab%206%20-%20Transformers.html">Lab 7b: Neural Networks for text</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="nav bd-sidenav">
@@ -204,6 +207,7 @@
 
 <li class="toctree-l1"><a class="reference internal" href="Lab%202%20-%20Tutorial.html">Lab 2: Model Selection in scikit-learn</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lab%203%20-%20Tutorial.html">Lab 4: Data engineering pipelines with scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lab%204%20-%20Tutorial.html">Lab 4: Deep Learning with PyTorch</a></li>
 </ul>
 
     </div>
@@ -417,7 +421,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Lab 6: Neural networks</h1>
+    <h1>Lab 4: Neural networks</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -444,8 +448,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="lab-6-neural-networks">
-<h1>Lab 6: Neural networks<a class="headerlink" href="#lab-6-neural-networks" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="lab-4-neural-networks">
+<h1>Lab 4: Neural networks<a class="headerlink" href="#lab-4-neural-networks" title="Link to this heading">#</a></h1>
 <p>In this lab we will build dense neural networks on the MNIST dataset.</p>
 <p>Make sure you read the tutorial for this lab first.</p>
 <section id="load-the-data-and-create-train-test-splits">
@@ -460,9 +464,14 @@
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">openml</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">oml</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow.keras</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytorch_lightning</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">random_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">transforms</span>
 </pre></div>
 </div>
 </div>
@@ -505,18 +514,19 @@
 <h2>Exercise 1: Preprocessing<a class="headerlink" href="#exercise-1-preprocessing" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Normalize the data: map each feature value from its current representation (an integer between 0 and 255) to a floating-point value between 0 and 1.0.</p></li>
-<li><p>Store the floating-point values in <code class="docutils literal notranslate"><span class="pre">x_train_normalized</span></code> and <code class="docutils literal notranslate"><span class="pre">x_test_normalized</span></code>.</p></li>
-<li><p>Map the class label to a on-hot-encoded value. Store in <code class="docutils literal notranslate"><span class="pre">y_train_encoded</span></code> and <code class="docutils literal notranslate"><span class="pre">y_test_encoded</span></code>.</p></li>
+<li><p>Create a train-test split using the first 60000 examples for training</p></li>
+<li><p>Flatten the data</p></li>
+<li><p>Convert the data (numpy arrays) to PyTorch tensors</p></li>
+<li><p>Create a TensorDataset for the training data, and another for the testing data</p></li>
 </ul>
 </section>
 <section id="exercise-2-create-a-deep-neural-net-model">
 <h2>Exercise 2: Create a deep neural net model<a class="headerlink" href="#exercise-2-create-a-deep-neural-net-model" title="Link to this heading">#</a></h2>
 <p>Implement a <code class="docutils literal notranslate"><span class="pre">create_model</span></code> function which defines the topography of the deep neural net, specifying the following:</p>
 <ul class="simple">
-<li><p>The number of layers in the deep neural net: Use 2 dense layers for now.</p></li>
+<li><p>The number of layers in the deep neural net: Use 2 dense layers for now (one hidden en one output layer)</p></li>
 <li><p>The number of nodes in each layer: these are parameters of your function.</p></li>
 <li><p>Any regularization layers. Add at least one dropout layer.</p></li>
-<li><p>The optimizer and learning rate. Make the learning rate a parameter of your function as well.</p></li>
 </ul>
 <p>Consider:</p>
 <ul class="simple">
@@ -526,7 +536,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Create and compile a &#39;deep&#39; neural net</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">create_model</span><span class="p">(</span><span class="n">layer_1_units</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">layer_2_units</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.3</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_model</span><span class="p">(</span><span class="n">layer_1_units</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">layer_2_units</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.3</span><span class="p">):</span>
     <span class="k">pass</span>
 </pre></div>
 </div>
@@ -536,16 +546,17 @@
 <section id="exercise-3-create-a-training-function">
 <h2>Exercise 3: Create a training function<a class="headerlink" href="#exercise-3-create-a-training-function" title="Link to this heading">#</a></h2>
 <p>Implement a <code class="docutils literal notranslate"><span class="pre">train_model</span></code> function which trains and evaluates a given model.
-It should do a train-validation split and report the train and validation loss and accuracy, and return the training history.</p>
+It should print out the train and validation loss and accuracy.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataset</span><span class="p">,</span> <span class="n">val_dataset</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    model: the model to train</span>
-<span class="sd">    X, y: the training data and labels</span>
-<span class="sd">    validation_split: the percentage of data set aside for the validation set</span>
+<span class="sd">    train_dataset: the training data and labels</span>
+<span class="sd">    test_dataset: the test data and labels</span>
 <span class="sd">    epochs: the number of epochs to train for</span>
 <span class="sd">    batch_size: the batch size for minibatch SGD</span>
+<span class="sd">    learning_rate: the learning rate for the optimizer</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span>
 </pre></div>
@@ -555,29 +566,45 @@ It should do a train-validation split and report the train and validation loss a
 </section>
 <section id="exercise-4-evaluate-the-model">
 <h2>Exercise 4: Evaluate the model<a class="headerlink" href="#exercise-4-evaluate-the-model" title="Link to this heading">#</a></h2>
-<p>Train the model with a learning rate of 0.003, 50 epochs, batch size 4000, and a validation set that is 20% of the total training data.
-Use default settings otherwise. Plot the learning curve of the loss, validation loss, accuracy, and validation accuracy. Finally, report the performance on the test set.</p>
+<p>Train the model with a learning rate of 0.003, 50 epochs, batch size 4000, and a validation set that is 20% of the total training data.</p>
+<p>Use default settings otherwise. Plot the learning curve of the loss, validation loss, accuracy, and validation accuracy. Finally, report the performance on the test set.</p>
+<p>Try to run the model on GPU.</p>
 <p>Feel free to use the plotting function below, or implement the callback from the tutorial to see results in real time.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Helper plotting function</span>
 <span class="c1">#</span>
-<span class="c1"># history: the history object returned by the fit function</span>
-<span class="c1"># list_of_metrics: the metrics to plot</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_curve</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="n">list_of_metrics</span><span class="p">):</span>
-    
-    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Value&quot;</span><span class="p">)</span>
+<span class="c1"># history: the history object returned by the training function</span>
 
-    <span class="n">epochs</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">epoch</span>
-    <span class="n">hist</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_curve</span><span class="p">(</span><span class="n">history</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots the learning curves for accuracy and loss.</span>
 
-    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">list_of_metrics</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">hist</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="sd">    history: Dictionary containing &#39;accuracy&#39;, &#39;val_accuracy&#39;, &#39;loss&#39;, &#39;val_loss&#39; per epoch.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+    <span class="c1"># Accuracy Plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">history</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Train Accuracy&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_accuracy&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Validation Accuracy&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epochs&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Accuracy Curve&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="c1"># Loss Plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">history</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Train Loss&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_loss&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Validation Loss&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epochs&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Loss Curve&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -625,6 +652,24 @@ Use default settings otherwise. Plot the learning curve of the loss, validation 
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="Lab%203b%20-%20Pipelines.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Lab 4:  Data preprocessing</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Lab%205%20-%20Convolutional%20Neural%20Networks.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Lab 7a: Convolutional neural nets</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               

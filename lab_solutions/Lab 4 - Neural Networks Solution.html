@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Lab 7: Neural networks &#8212; ML Engineering</title>
+    <title>Lab 4: Neural networks &#8212; ML Engineering</title>
   
   
   
@@ -190,6 +190,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../labs/Lab%201b%20-%20Linear%20Models%20for%20Classification.html">Lab 1b: Linear classification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../labs/Lab%203a%20-%20Ensembles.html">Lab 3: Ensembles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../labs/Lab%203b%20-%20Pipelines.html">Lab 4:  Data preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../labs/Lab%204%20-%20Neural%20Networks.html">Lab 4: Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../labs/Lab%205%20-%20Convolutional%20Neural%20Networks.html">Lab 7a: Convolutional neural nets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../labs/Lab%206%20-%20Transformers.html">Lab 7b: Neural Networks for text</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="nav bd-sidenav">
@@ -204,6 +207,7 @@
 
 <li class="toctree-l1"><a class="reference internal" href="../labs/Lab%202%20-%20Tutorial.html">Lab 2: Model Selection in scikit-learn</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../labs/Lab%203%20-%20Tutorial.html">Lab 4: Data engineering pipelines with scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../labs/Lab%204%20-%20Tutorial.html">Lab 4: Deep Learning with PyTorch</a></li>
 </ul>
 
     </div>
@@ -417,7 +421,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Lab 7: Neural networks</h1>
+    <h1>Lab 4: Neural networks</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -444,8 +448,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="lab-7-neural-networks">
-<h1>Lab 7: Neural networks<a class="headerlink" href="#lab-7-neural-networks" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="lab-4-neural-networks">
+<h1>Lab 4: Neural networks<a class="headerlink" href="#lab-4-neural-networks" title="Link to this heading">#</a></h1>
 <p>In this lab we will build dense neural networks on the MNIST dataset.</p>
 <p>Make sure you read the tutorial for this lab first.</p>
 <section id="load-the-data-and-create-train-test-splits">
@@ -457,16 +461,13 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">openml</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">oml</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow.keras</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">keras</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using Keras&quot;</span><span class="p">,</span><span class="n">keras</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TF_CPP_MIN_LOG_LEVEL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;2&quot;</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Using Keras 2.7.0
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytorch_lightning</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">random_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">transforms</span>
 </pre></div>
 </div>
 </div>
@@ -492,16 +493,11 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/cc82a7a9ddac27ce50cb7b6aed03a41513ef51f85ef02e2aabb317cf1acb7ecf.png" src="../_images/cc82a7a9ddac27ce50cb7b6aed03a41513ef51f85ef02e2aabb317cf1acb7ecf.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># For MNIST, there exists a predefined stratified train-test split of 60000-10000. We therefore don&#39;t shuffle or stratify here.</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="mi">60000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/0t/5d8ttqzd773fy0wq3h5db0xr0000gn/T/ipykernel_395/3841004139.py:3: FutureWarning: Support for `dataset_format=&#39;array&#39;` will be removed in 0.15,start using `dataset_format=&#39;dataframe&#39; to ensure your code will continue to work. You can use the dataframe&#39;s `to_numpy` function to continue using numpy arrays.
+  X, y, _, _ = mnist.get_data(target=mnist.default_target_attribute, dataset_format=&#39;array&#39;);
 </pre></div>
 </div>
+<img alt="../_images/b2ea9d5906e035dcdd985937e323abd454e6145c25764b5da6712b418f81eae7.png" src="../_images/b2ea9d5906e035dcdd985937e323abd454e6145c25764b5da6712b418f81eae7.png" />
 </div>
 </div>
 </section>
@@ -509,18 +505,30 @@
 <h2>Exercise 1: Preprocessing<a class="headerlink" href="#exercise-1-preprocessing" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Normalize the data: map each feature value from its current representation (an integer between 0 and 255) to a floating-point value between 0 and 1.0.</p></li>
-<li><p>Store the floating-point values in <code class="docutils literal notranslate"><span class="pre">x_train_normalized</span></code> and <code class="docutils literal notranslate"><span class="pre">x_test_normalized</span></code>.</p></li>
-<li><p>Map the class label to a on-hot-encoded value. Store in <code class="docutils literal notranslate"><span class="pre">y_train_encoded</span></code> and <code class="docutils literal notranslate"><span class="pre">y_test_encoded</span></code>.</p></li>
+<li><p>Create a train-test split using the first 60000 examples for training</p></li>
+<li><p>Flatten the data</p></li>
+<li><p>Convert the data (numpy arrays) to PyTorch tensors</p></li>
+<li><p>Create a TensorDataset for the training data, and another for the testing data</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Solution</span>
-<span class="n">x_train_normalized</span> <span class="o">=</span> <span class="n">X_train</span> <span class="o">/</span> <span class="mf">255.0</span>
-<span class="n">x_test_normalized</span> <span class="o">=</span> <span class="n">X_test</span> <span class="o">/</span> <span class="mf">255.0</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">TensorDataset</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_categorical</span>
-<span class="n">y_train_encoded</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
-<span class="n">y_test_encoded</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
+<span class="c1"># Flatten images, create train-test split</span>
+<span class="n">X_flat</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">70000</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_flat</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Convert numpy arrays to PyTorch tensors with correct types</span>
+<span class="n">X_train_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">y_train_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+<span class="n">X_test_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">y_test_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+
+<span class="c1"># Create PyTorch datasets</span>
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">X_train_tensor</span><span class="p">,</span> <span class="n">y_train_tensor</span><span class="p">)</span>
+<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">X_test_tensor</span><span class="p">,</span> <span class="n">y_test_tensor</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -530,10 +538,9 @@
 <h2>Exercise 2: Create a deep neural net model<a class="headerlink" href="#exercise-2-create-a-deep-neural-net-model" title="Link to this heading">#</a></h2>
 <p>Implement a <code class="docutils literal notranslate"><span class="pre">create_model</span></code> function which defines the topography of the deep neural net, specifying the following:</p>
 <ul class="simple">
-<li><p>The number of layers in the deep neural net: Use 2 dense layers for now.</p></li>
+<li><p>The number of layers in the deep neural net: Use 2 dense layers for now (one hidden en one output layer)</p></li>
 <li><p>The number of nodes in each layer: these are parameters of your function.</p></li>
 <li><p>Any regularization layers. Add at least one dropout layer.</p></li>
-<li><p>The optimizer and learning rate. Make the learning rate a parameter of your function as well.</p></li>
 </ul>
 <p>Consider:</p>
 <ul class="simple">
@@ -543,7 +550,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Create and compile a &#39;deep&#39; neural net</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">create_model</span><span class="p">(</span><span class="n">layer_1_units</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">layer_2_units</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.3</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_model</span><span class="p">(</span><span class="n">layer_1_units</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">layer_2_units</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.3</span><span class="p">):</span>
     <span class="k">pass</span>
 </pre></div>
 </div>
@@ -552,33 +559,27 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Solution</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">create_model</span><span class="p">(</span><span class="n">layer_1_units</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">layer_2_units</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.3</span><span class="p">):</span>
 
-    <span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="c1"># Set device</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
 
-    <span class="c1"># The features are stored in a two-dimensional 28X28 array. </span>
-    <span class="c1"># Flatten that two-dimensional array into a a one-dimensional </span>
-    <span class="c1"># 784-element array.</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(</span><span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)))</span>
+<span class="c1"># Define the neural network</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimpleNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer_1_units</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">layer_2_units</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SimpleNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flatten</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">,</span> <span class="n">layer_1_units</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout_rate</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">layer_1_units</span><span class="p">,</span> <span class="n">layer_2_units</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-    <span class="c1"># Define the first hidden layer.   </span>
-    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
-
-    <span class="c1"># Define a dropout regularization layer. </span>
-    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="n">dropout_rate</span><span class="p">))</span>
-
-    <span class="c1"># Define the output layer. The units parameter is set to 10 because</span>
-    <span class="c1"># the model must choose among 10 possible output values (representing</span>
-    <span class="c1"># the digits from 0 to 9, inclusive).</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">))</span>     
-
-    <span class="c1"># Construct the layers into a model that TensorFlow can execute.  </span>
-    <span class="c1"># Notice that the loss function for multi-class classification</span>
-    <span class="c1"># is different than the loss function for binary classification.</span>
-    <span class="c1"># Using Adam here. RMSProp would also be fine</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">),</span>
-                  <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;categorical_crossentropy&quot;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
-
+<span class="k">def</span><span class="w"> </span><span class="nf">create_model</span><span class="p">(</span><span class="n">layer_1_units</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">layer_2_units</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.3</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">SimpleNN</span><span class="p">(</span><span class="n">layer_1_units</span><span class="p">,</span> <span class="n">layer_2_units</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">model</span>       
 </pre></div>
 </div>
@@ -588,16 +589,17 @@
 <section id="exercise-3-create-a-training-function">
 <h2>Exercise 3: Create a training function<a class="headerlink" href="#exercise-3-create-a-training-function" title="Link to this heading">#</a></h2>
 <p>Implement a <code class="docutils literal notranslate"><span class="pre">train_model</span></code> function which trains and evaluates a given model.
-It should do a train-validation split and report the train and validation loss and accuracy, and return the training history.</p>
+It should print out the train and validation loss and accuracy.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataset</span><span class="p">,</span> <span class="n">val_dataset</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    model: the model to train</span>
-<span class="sd">    X, y: the training data and labels</span>
-<span class="sd">    validation_split: the percentage of data set aside for the validation set</span>
+<span class="sd">    train_dataset: the training data and labels</span>
+<span class="sd">    test_dataset: the test data and labels</span>
 <span class="sd">    epochs: the number of epochs to train for</span>
 <span class="sd">    batch_size: the batch size for minibatch SGD</span>
+<span class="sd">    learning_rate: the learning rate for the optimizer</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span>
 </pre></div>
@@ -607,19 +609,93 @@ It should do a train-validation split and report the train and validation loss a
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Solution</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optim</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torchmetrics</span>
+
+
+<span class="c1"># Set device</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataset</span><span class="p">,</span> <span class="n">val_dataset</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    model: the model to train</span>
-<span class="sd">    X, y: the training data and labels</span>
-<span class="sd">    validation_split: the percentage of data set aside for the validation set</span>
-<span class="sd">    epochs: the number of epochs to train for</span>
-<span class="sd">    batch_size: the batch size for minibatch SGD</span>
+<span class="sd">    Trains the model and returns the history (loss, accuracy, validation loss, validation accuracy).</span>
+<span class="sd">    </span>
+<span class="sd">    model: PyTorch model to be trained</span>
+<span class="sd">    train_dataset: the training data and labels</span>
+<span class="sd">    test_dataset: the test data and labels</span>
+<span class="sd">    epochs: Number of training epochs</span>
+<span class="sd">    batch_size: Batch size for training</span>
+<span class="sd">    learning_rate: Learning rate for optimizer</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    history: Dictionary containing training loss, accuracy, validation loss, and validation accuracy per epoch.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">X_train</span><span class="p">,</span> <span class="n">x_val</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">validation_split</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    
-    <span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                        <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">x_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">history</span> 
+    <span class="c1"># Create DataLoaders</span>
+    <span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Loss function, optimizer, and accuracy metric</span>
+    <span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">(</span><span class="n">label_smoothing</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">RMSprop</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">accuracy_metric</span> <span class="o">=</span> <span class="n">torchmetrics</span><span class="o">.</span><span class="n">Accuracy</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="s2">&quot;multiclass&quot;</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Move model to device</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Store history for plotting</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;accuracy&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;val_accuracy&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;val_loss&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+        <span class="n">total_loss</span><span class="p">,</span> <span class="n">correct</span><span class="p">,</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">X_batch</span><span class="p">,</span> <span class="n">y_batch</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+            <span class="n">X_batch</span><span class="p">,</span> <span class="n">y_batch</span> <span class="o">=</span> <span class="n">X_batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y_batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+            <span class="c1"># Forward pass + loss calculation</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_batch</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">)</span>
+
+            <span class="c1"># Backward pass</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+            <span class="c1"># Compute training metrics</span>
+            <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">correct</span> <span class="o">+=</span> <span class="n">accuracy_metric</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">y_batch</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">y_batch</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Compute epoch training metrics</span>
+        <span class="n">train_loss</span> <span class="o">=</span> <span class="n">total_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="p">)</span>
+        <span class="n">train_acc</span> <span class="o">=</span> <span class="n">correct</span> <span class="o">/</span> <span class="n">total</span>
+
+        <span class="c1"># Validation phase</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="n">val_loss</span><span class="p">,</span> <span class="n">val_correct</span><span class="p">,</span> <span class="n">val_total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span> <span class="ow">in</span> <span class="n">val_loader</span><span class="p">:</span>
+                <span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">X_val</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y_val</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                <span class="n">val_outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_val</span><span class="p">)</span>
+                <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">val_outputs</span><span class="p">,</span> <span class="n">y_val</span><span class="p">)</span>
+
+                <span class="n">val_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+                <span class="n">val_correct</span> <span class="o">+=</span> <span class="n">accuracy_metric</span><span class="p">(</span><span class="n">val_outputs</span><span class="p">,</span> <span class="n">y_val</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">y_val</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">val_total</span> <span class="o">+=</span> <span class="n">y_val</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">val_avg_loss</span> <span class="o">=</span> <span class="n">val_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">val_loader</span><span class="p">)</span>
+        <span class="n">val_avg_acc</span> <span class="o">=</span> <span class="n">val_correct</span> <span class="o">/</span> <span class="n">val_total</span>
+
+        <span class="c1"># Store values in history</span>
+        <span class="n">history</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_acc</span><span class="p">)</span>
+        <span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_accuracy&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val_avg_acc</span><span class="p">)</span>
+        <span class="n">history</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_loss</span><span class="p">)</span>
+        <span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_loss&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val_avg_loss</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">epochs</span><span class="si">}</span><span class="s2">], Loss: </span><span class="si">{</span><span class="n">train_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Acc: </span><span class="si">{</span><span class="n">train_acc</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Val Loss: </span><span class="si">{</span><span class="n">val_avg_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Val Acc: </span><span class="si">{</span><span class="n">val_avg_acc</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">history</span>  <span class="c1"># Returning history for later plotting</span>
 </pre></div>
 </div>
 </div>
@@ -627,29 +703,45 @@ It should do a train-validation split and report the train and validation loss a
 </section>
 <section id="exercise-4-evaluate-the-model">
 <h2>Exercise 4: Evaluate the model<a class="headerlink" href="#exercise-4-evaluate-the-model" title="Link to this heading">#</a></h2>
-<p>Train the model with a learning rate of 0.003, 50 epochs, batch size 4000, and a validation set that is 20% of the total training data.
-Use default settings otherwise. Plot the learning curve of the loss, validation loss, accuracy, and validation accuracy. Finally, report the performance on the test set.</p>
+<p>Train the model with a learning rate of 0.003, 50 epochs, batch size 4000, and a validation set that is 20% of the total training data.</p>
+<p>Use default settings otherwise. Plot the learning curve of the loss, validation loss, accuracy, and validation accuracy. Finally, report the performance on the test set.</p>
+<p>Try to run the model on GPU.</p>
 <p>Feel free to use the plotting function below, or implement the callback from the tutorial to see results in real time.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Helper plotting function</span>
 <span class="c1">#</span>
-<span class="c1"># history: the history object returned by the fit function</span>
-<span class="c1"># list_of_metrics: the metrics to plot</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_curve</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="n">list_of_metrics</span><span class="p">):</span>
-    
-    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Value&quot;</span><span class="p">)</span>
+<span class="c1"># history: the history object returned by the training function</span>
 
-    <span class="n">epochs</span> <span class="o">=</span> <span class="n">history</span><span class="o">.</span><span class="n">epoch</span>
-    <span class="n">hist</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">history</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_curve</span><span class="p">(</span><span class="n">history</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots the learning curves for accuracy and loss.</span>
 
-    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">list_of_metrics</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">hist</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="sd">    history: Dictionary containing &#39;accuracy&#39;, &#39;val_accuracy&#39;, &#39;loss&#39;, &#39;val_loss&#39; per epoch.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">history</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+    <span class="c1"># Accuracy Plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">history</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Train Accuracy&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_accuracy&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Validation Accuracy&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epochs&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Accuracy Curve&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="c1"># Loss Plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">history</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Train Loss&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">history</span><span class="p">[</span><span class="s2">&quot;val_loss&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Validation Loss&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epochs&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Loss Curve&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -664,38 +756,30 @@ Use default settings otherwise. Plot the learning curve of the loss, validation 
 <span class="n">validation_split</span> <span class="o">=</span> <span class="mf">0.2</span>
 
 <span class="c1"># Create the model the model&#39;s topography.</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span><span class="n">layer_1_units</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">layer_2_units</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 
 <span class="c1"># Train the model on the normalized training set.</span>
-<span class="n">history</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_normalized</span><span class="p">,</span> <span class="n">y_train_encoded</span><span class="p">,</span> 
-                      <span class="n">validation_split</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataset</span><span class="p">,</span> <span class="n">test_dataset</span><span class="p">,</span> 
+                      <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
 
-<span class="c1"># Plot a graph of the metric vs. epochs.</span>
-<span class="n">list_of_metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span><span class="s1">&#39;val_accuracy&#39;</span><span class="p">,</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span><span class="s1">&#39;val_loss&#39;</span><span class="p">]</span>
-<span class="n">plot_curve</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="n">list_of_metrics</span><span class="p">)</span>
-
-<span class="c1"># Evaluate against the test set.</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Evaluation on the test set [loss, accuracy]:&quot;</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_test_normalized</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_test_encoded</span><span class="p">,</span> 
-               <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plot_curve</span><span class="p">(</span><span class="n">history</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Metal device set to: Apple M1 Pro
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [1/10], Loss: 1.7313, Acc: 0.4590, Val Loss: 0.8359, Val Acc: 0.7502
+Epoch [2/10], Loss: 0.9644, Acc: 0.6799, Val Loss: 0.5141, Val Acc: 0.8594
+Epoch [3/10], Loss: 0.8192, Acc: 0.7405, Val Loss: 0.6168, Val Acc: 0.8269
+Epoch [4/10], Loss: 0.7737, Acc: 0.7547, Val Loss: 0.5022, Val Acc: 0.8762
+Epoch [5/10], Loss: 0.7424, Acc: 0.7661, Val Loss: 0.4150, Val Acc: 0.9079
+Epoch [6/10], Loss: 0.7319, Acc: 0.7731, Val Loss: 0.4259, Val Acc: 0.9111
+Epoch [7/10], Loss: 0.7189, Acc: 0.7797, Val Loss: 0.3873, Val Acc: 0.9218
+Epoch [8/10], Loss: 0.6983, Acc: 0.7900, Val Loss: 0.4015, Val Acc: 0.9074
+Epoch [9/10], Loss: 0.7019, Acc: 0.7897, Val Loss: 0.3757, Val Acc: 0.9209
+Epoch [10/10], Loss: 0.7040, Acc: 0.7879, Val Loss: 0.4082, Val Acc: 0.9081
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/jvanscho/miniforge3/lib/python3.9/site-packages/keras/optimizer_v2/adam.py:105: UserWarning: The `lr` argument is deprecated, use `learning_rate` instead.
-  super(Adam, self).__init__(name, **kwargs)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Evaluation on the test set [loss, accuracy]:
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.21780921518802643, 0.9358000159263611]
-</pre></div>
-</div>
-<img alt="../_images/f9506f9e6f3971cc5e8159d8ab4130a2d93e96d587cf9444fba0f95cac684e75.png" src="../_images/f9506f9e6f3971cc5e8159d8ab4130a2d93e96d587cf9444fba0f95cac684e75.png" />
+<img alt="../_images/59ef96359da267bedf5b45c64edc293fc07533b17c95e9270a4b0dcb1690e6c5.png" src="../_images/59ef96359da267bedf5b45c64edc293fc07533b17c95e9270a4b0dcb1690e6c5.png" />
 </div>
 </div>
 </section>
@@ -708,89 +792,6 @@ Use default settings otherwise. Plot the learning curve of the loss, validation 
 <li><p>the amount of dropout layers and the dropout rate</p></li>
 </ul>
 <p>Try to reach at least 96% accuracy against the test set.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Solution</span>
-<span class="c1"># For an example with random search, see the tutorial</span>
-<span class="c1"># Here, we search manually, following the following hunches:</span>
-<span class="c1">#   * Adding more nodes to the first hidden layer will improve accuracy. The input size is 784, so we should not make it too small</span>
-<span class="c1">#   * Adding a second hidden layer generally improves accuracy.</span>
-<span class="c1">#   * For larger models (more nodes), we need to regularize more (more dropout)</span>
-
-<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">4000</span> <span class="c1"># Pretty high, but making this smaller doesn&#39;t seem to help much.</span>
-<span class="n">epochs</span> <span class="o">=</span> <span class="mi">70</span>
-
-<span class="c1"># Create the model the model&#39;s topography.</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span><span class="n">layer_1_units</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">layer_2_units</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.003</span><span class="p">,</span> <span class="n">dropout_rate</span><span class="o">=</span> <span class="mf">0.15</span><span class="p">)</span>
-
-<span class="c1"># Train the model on the normalized training set.</span>
-<span class="n">history</span> <span class="o">=</span> <span class="n">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x_train_normalized</span><span class="p">,</span> <span class="n">y_train_encoded</span><span class="p">,</span> 
-                      <span class="n">validation_split</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
-
-<span class="c1"># Plot a graph of the metric vs. epochs.</span>
-<span class="n">list_of_metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span><span class="s1">&#39;val_accuracy&#39;</span><span class="p">,</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span><span class="s1">&#39;val_loss&#39;</span><span class="p">]</span>
-<span class="n">plot_curve</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="n">list_of_metrics</span><span class="p">)</span>
-
-<span class="c1"># Evaluate against the test set.</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Evaluation on the test set (accuracy):&quot;</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x_test_normalized</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_test_encoded</span><span class="p">,</span> 
-               <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/jvanscho/miniforge3/lib/python3.9/site-packages/keras/optimizer_v2/adam.py:105: UserWarning: The `lr` argument is deprecated, use `learning_rate` instead.
-  super(Adam, self).__init__(name, **kwargs)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Evaluation on the test set (accuracy):
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9571000337600708
-</pre></div>
-</div>
-<img alt="../_images/af5246af88ef9e3c99bf3cdd47fe89790b5e954e646f881a8d56f949d130d4d8.png" src="../_images/af5246af88ef9e3c99bf3cdd47fe89790b5e954e646f881a8d56f949d130d4d8.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Solution with tuning. Takes a long time, and the best found solution isn&#39;t better.</span>
-<span class="c1"># The maximum number of nodes was set to 265. Setting it higher may yield better result.</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">optimizers</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">keras_tuner</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">kt</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">build_model</span><span class="p">(</span><span class="n">hp</span><span class="p">):</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
-
-    <span class="c1"># Tune the number of units in the dense layers</span>
-    <span class="n">hp_units</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">Int</span><span class="p">(</span><span class="s1">&#39;units&#39;</span><span class="p">,</span> <span class="n">min_value</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">max_value</span> <span class="o">=</span> <span class="mi">265</span><span class="p">,</span> <span class="n">step</span> <span class="o">=</span> <span class="mi">32</span><span class="p">)</span>
-    <span class="n">hp_units2</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">Int</span><span class="p">(</span><span class="s1">&#39;units2&#39;</span><span class="p">,</span> <span class="n">min_value</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">max_value</span> <span class="o">=</span> <span class="mi">265</span><span class="p">,</span> <span class="n">step</span> <span class="o">=</span> <span class="mi">32</span><span class="p">)</span>
-    <span class="n">hp_dropout</span> <span class="o">=</span> <span class="n">hp</span><span class="o">.</span><span class="n">Float</span><span class="p">(</span><span class="s1">&#39;dropout&#39;</span><span class="p">,</span> <span class="n">min_value</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">max_value</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">step</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
-
-    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(</span><span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)))</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="n">hp_units</span><span class="p">,</span> <span class="n">activation</span> <span class="o">=</span> <span class="s1">&#39;relu&#39;</span><span class="p">))</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span> <span class="n">hp_dropout</span><span class="p">))</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span> <span class="o">=</span> <span class="n">hp_units2</span><span class="p">,</span> <span class="n">activation</span> <span class="o">=</span> <span class="s1">&#39;relu&#39;</span><span class="p">))</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
-
-    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span> <span class="o">=</span> <span class="s1">&#39;rmsprop&#39;</span><span class="p">,</span>
-                  <span class="n">loss</span> <span class="o">=</span> <span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>
-                  <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">model</span>
-
-<span class="n">tuner</span> <span class="o">=</span> <span class="n">kt</span><span class="o">.</span><span class="n">RandomSearch</span><span class="p">(</span><span class="n">build_model</span><span class="p">,</span> <span class="n">max_trials</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">objective</span> <span class="o">=</span> <span class="s1">&#39;val_accuracy&#39;</span><span class="p">,</span> <span class="n">project_name</span><span class="o">=</span><span class="s1">&#39;mnist_tuning&#39;</span><span class="p">)</span>
-
-<span class="n">X_train</span><span class="p">,</span> <span class="n">x_val</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">x_train_normalized</span><span class="p">,</span> <span class="n">y_train_encoded</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y_train_encoded</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">tuner</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> <span class="n">epochs</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">validation_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">),</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1"># Get the optimal hyperparameters</span>
-<span class="n">best_hps</span> <span class="o">=</span> <span class="n">tuner</span><span class="o">.</span><span class="n">get_best_hyperparameters</span><span class="p">(</span><span class="n">num_trials</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 </section>
 
