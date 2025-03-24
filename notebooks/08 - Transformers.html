@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Lecture 8. Neural Networks for text &#8212; ML Engineering</title>
+    <title>Lecture 8. Transformers &#8212; ML Engineering</title>
   
   
   
@@ -184,7 +184,7 @@
 <li class="toctree-l1"><a class="reference internal" href="05%20-%20Data%20Preprocessing.html">Lecture 5. Data preprocessing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06%20-%20Neural%20Networks.html">Lecture 6. Neural Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07%20-%20Convolutional%20Neural%20Networks.html">Lecture 7: Convolutional Neural Networks</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 8. Neural Networks for text</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 8. Transformers</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
 <ul class="nav bd-sidenav">
@@ -423,7 +423,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Lecture 8. Neural Networks for text</h1>
+    <h1>Lecture 8. Transformers</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -435,10 +435,7 @@
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bag-of-word-representation">Bag of word representation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bag-of-words-with-one-hot-encoding">Bag of words with one-hot-encoding</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#word-counts">Word counts</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classification">Classification</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing">Preprocessing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#text-preprocessing-pipelines">Text preprocessing pipelines</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling">Scaling</a></li>
 </ul>
 </li>
@@ -493,19 +490,22 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="lecture-8-neural-networks-for-text">
-<h1>Lecture 8. Neural Networks for text<a class="headerlink" href="#lecture-8-neural-networks-for-text" title="Link to this heading">#</a></h1>
-<p><strong>Turning text into numbers</strong></p>
+  <section class="tex2jax_ignore mathjax_ignore" id="lecture-8-transformers">
+<h1>Lecture 8. Transformers<a class="headerlink" href="#lecture-8-transformers" title="Link to this heading">#</a></h1>
+<p><strong>Maybe attention is all you need</strong></p>
 <p>Joaquin Vanschoren</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Global imports and settings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">preamble</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow.keras</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">keras</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TF_CPP_MIN_LOG_LEVEL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;2&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Auto-setup when running on Google Colab</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">())</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;/content/master&#39;</span><span class="p">):</span>
+    <span class="o">!</span>git<span class="w"> </span>clone<span class="w"> </span>-q<span class="w"> </span>https://github.com/ML-course/master.git<span class="w"> </span>/content/master
+    <span class="o">!</span>pip<span class="w"> </span>--quiet<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>/content/master/requirements_colab.txt
+    <span class="o">%</span><span class="k">cd</span> master/notebooks
 
+<span class="c1"># Global imports and settings</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span><span class="w"> </span><span class="nn">preamble</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">interactive</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># Set to True for interactive plots </span>
 <span class="k">if</span> <span class="n">interactive</span><span class="p">:</span>
     <span class="n">fig_scale</span> <span class="o">=</span> <span class="mf">0.5</span>
@@ -513,9 +513,13 @@
 <span class="k">else</span><span class="p">:</span> <span class="c1"># For printing</span>
     <span class="n">fig_scale</span> <span class="o">=</span> <span class="mf">0.4</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">print_config</span><span class="p">)</span>
+    
+<span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;&lt;style&gt;.rise-enabled .reveal pre {font-size=75%} &lt;/style&gt;&#39;&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>.rise-enabled .reveal pre {font-size=75%} </style></div></div>
 </div>
 <section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
@@ -526,12 +530,9 @@
 <li><p>Neural networks on word embeddings</p></li>
 </ul>
 </li>
-<li><p>Sequence-to-sequence models</p>
-<ul>
-<li><p>Self-attention</p></li>
-<li><p>Transformer models</p></li>
-</ul>
-</li>
+<li><p>Sequence-to-sequence and autoregressive models</p></li>
+<li><p>Self-attention and transformer models</p></li>
+<li><p>Vision Transformers</p></li>
 </ul>
 </section>
 <section id="bag-of-word-representation">
@@ -545,227 +546,28 @@
 </li>
 <li><p>Destroys the order of the words in the text (hence, a ‘bag’ of words)</p></li>
 </ul>
-<img src="https://raw.githubusercontent.com/ML-course/master/master/notebooks/images/bag_of_words.png" alt="ml" style="width: 60%"/><p>Example: IMBD review database</p>
+<img src="https://raw.githubusercontent.com/ML-course/master/master/notebooks/images/bag_of_words.png" alt="ml" style="width: 60%"/><section id="text-preprocessing-pipelines">
+<h3>Text preprocessing pipelines<a class="headerlink" href="#text-preprocessing-pipelines" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>50,000 reviews, labeled positive (1) or negative (0)</p>
-<ul>
-<li><p>Every row (document) is one review, no other input features</p></li>
-<li><p>Already tokenized. All markup, punctuation,… removed</p></li>
-</ul>
-</li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">keras.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">imdb</span>
-<span class="n">word_index</span> <span class="o">=</span> <span class="n">imdb</span><span class="o">.</span><span class="n">get_word_index</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Text contains </span><span class="si">{}</span><span class="s2"> unique words&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word_index</span><span class="p">)))</span>
-
-<span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">),</span> <span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span> <span class="o">=</span> <span class="n">imdb</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">index_from</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">reverse_word_index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">word_index</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
-
-<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Review </span><span class="si">{}</span><span class="s2">:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r</span><span class="p">),</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">reverse_word_index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">train_data</span><span class="p">[</span><span class="n">r</span><span class="p">]][</span><span class="mi">0</span><span class="p">:</span><span class="mi">50</span><span class="p">]))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text contains 88584 unique words
-
-Review 0: the this film was just brilliant casting location scenery story direction everyone&#39;s really suited the part they played and you could just imagine being there robert redford&#39;s is an amazing actor and now the same being director norman&#39;s father came from the same scottish island as myself so i loved
-
-Review 5: the begins better than it ends funny that the russian submarine crew outperforms all other actors it&#39;s like those scenes where documentary shots br br spoiler part the message dechifered was contrary to the whole story it just does not mesh br br
-
-Review 10: the french horror cinema has seen something of a revival over the last couple of years with great films such as inside and switchblade romance bursting on to the scene maléfique preceded the revival just slightly but stands head and shoulders over most modern horror titles and is surely one
-</pre></div>
-</div>
-</div>
-</div>
-<section id="bag-of-words-with-one-hot-encoding">
-<h3>Bag of words with one-hot-encoding<a class="headerlink" href="#bag-of-words-with-one-hot-encoding" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Encoded review: shows the list of word IDs. Words are sorted by frequency of occurance.</p>
-<ul>
-<li><p>Allows to easily remove the most common and least common words</p></li>
-</ul>
-</li>
-<li><p>One-hot-encoded review: ‘1’ if the word occurs.</p>
-<ul>
-<li><p>Only the first 100 of 10000 values are shown</p></li>
-</ul>
-</li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Custom implementation of one-hot-encoding. </span>
-<span class="c1"># dimension is the dimensionality of the output (default 10000).</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">vectorize_sequences</span><span class="p">(</span><span class="n">sequences</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">sequences</span><span class="p">),</span> <span class="n">dimension</span><span class="p">))</span> <span class="c1"># create empty vector of length N</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sequence</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sequences</span><span class="p">):</span>
-        <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">sequence</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span>  <span class="c1"># set specific indices of results[i] to 1s</span>
-    <span class="k">return</span> <span class="n">results</span>
-<span class="n">x_train</span> <span class="o">=</span> <span class="n">vectorize_sequences</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">word_index</span><span class="p">))</span>
-<span class="n">x_test</span> <span class="o">=</span> <span class="n">vectorize_sequences</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">word_index</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Review </span><span class="si">{}</span><span class="s2">:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">reverse_word_index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">train_data</span><span class="p">[</span><span class="mi">3</span><span class="p">]][</span><span class="mi">0</span><span class="p">:</span><span class="mi">80</span><span class="p">]))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Encoded review: &quot;</span><span class="p">,</span> <span class="n">train_data</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">80</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">One-hot-encoded review: &quot;</span><span class="p">,</span> <span class="n">x_train</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">80</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Review 3: the the scots excel at storytelling the traditional sort many years after the event i can still see in my mind&#39;s eye an elderly lady my friend&#39;s mother retelling the battle of culloden she makes the characters come alive her passion is that of an eye witness one to the events on the sodden heath a mile or so from where she lives br br of course it happened many years before she was born but you wouldn&#39;t guess from
-
-Encoded review:  [1, 1, 18606, 16082, 30, 2801, 1, 2037, 429, 108, 150, 100, 1, 1491, 10, 67, 128, 64, 8, 58, 15302, 741, 32, 3712, 758, 58, 5763, 449, 9211, 1, 982, 4, 64314, 56, 163, 1, 102, 213, 1236, 38, 1794, 6, 12, 4, 32, 741, 2410, 28, 5, 1, 684, 20, 1, 33926, 7336, 3, 3690, 39, 35, 36, 118, 56, 453, 7, 7, 4, 262, 9, 572, 108, 150, 156, 56, 13, 1444, 18, 22, 583, 479, 36]
-
-One-hot-encoded review:  [0. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 0. 1. 0. 1. 1. 1. 0. 1. 1.
- 1. 0. 1. 1. 1. 1. 1. 0. 1. 1. 1. 1. 1. 1. 1. 1. 0. 1. 0. 1. 1. 1. 1. 1.
- 1. 0. 1. 1. 0. 0. 0. 1. 1. 1. 1. 0. 0. 1. 1. 0. 1. 0. 0. 1. 1. 0. 0. 0.
- 1. 0. 0. 0. 0. 1. 0. 1.]
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="word-counts">
-<h3>Word counts<a class="headerlink" href="#word-counts" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Count the number of times each word appears in the document</p></li>
-<li><p>Example using sklearn <code class="docutils literal notranslate"><span class="pre">CountVectorizer</span></code> (on 2 documents)</p></li>
-<li><p>In practice, we also:</p>
-<ul>
-<li><p>Preprocess the text (tokenization, stemming, remove stopwords, …)</p></li>
-<li><p>Use <em>n-grams</em> (“not terrible”, “terrible acting”,…), <em>character n-grams</em> (‘ter’, ‘err’, ‘eri’,…)</p></li>
-<li><p>Scale the word-counts (e.g. L2 normalization or TF-IDF)</p></li>
-</ul>
-</li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.feature_extraction.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">CountVectorizer</span>
-
-<span class="c1"># Fit count vectorizer on a few documents (here: 2)</span>
-<span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">reverse_word_index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">train_data</span><span class="p">[</span><span class="n">d</span><span class="p">]][</span><span class="mi">0</span><span class="p">:</span><span class="mi">50</span><span class="p">])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
-<span class="n">vect</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">()</span>
-<span class="n">vect</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vocabulary (feature names) after fit:&quot;</span><span class="p">,</span> <span class="n">vect</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">())</span>
-
-<span class="c1"># Transform the data</span>
-<span class="c1"># Returns a sparse matrix</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Count encoding doc 1:&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Count encoding doc 2:&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">toarray</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Vocabulary (feature names) after fit: [&#39;actor&#39; &#39;amazing&#39; &#39;an&#39; &#39;and&#39; &#39;are&#39; &#39;as&#39; &#39;bad&#39; &#39;be&#39; &#39;being&#39; &#39;best&#39; &#39;big&#39;
- &#39;boobs&#39; &#39;brilliant&#39; &#39;but&#39; &#39;came&#39; &#39;casting&#39; &#39;cheesy&#39; &#39;could&#39; &#39;describe&#39;
- &#39;direction&#39; &#39;director&#39; &#39;ever&#39; &#39;everyone&#39; &#39;father&#39; &#39;film&#39; &#39;from&#39; &#39;giant&#39;
- &#39;got&#39; &#39;had&#39; &#39;hair&#39; &#39;horror&#39; &#39;hundreds&#39; &#39;imagine&#39; &#39;is&#39; &#39;island&#39; &#39;just&#39;
- &#39;location&#39; &#39;love&#39; &#39;loved&#39; &#39;made&#39; &#39;movie&#39; &#39;movies&#39; &#39;music&#39; &#39;myself&#39;
- &#39;norman&#39; &#39;now&#39; &#39;of&#39; &#39;on&#39; &#39;paper&#39; &#39;part&#39; &#39;pin&#39; &#39;played&#39; &#39;plot&#39; &#39;really&#39;
- &#39;redford&#39; &#39;ridiculous&#39; &#39;robert&#39; &#39;safety&#39; &#39;same&#39; &#39;scenery&#39; &#39;scottish&#39;
- &#39;seen&#39; &#39;so&#39; &#39;story&#39; &#39;suited&#39; &#39;terrible&#39; &#39;the&#39; &#39;there&#39; &#39;these&#39; &#39;they&#39;
- &#39;thin&#39; &#39;this&#39; &#39;to&#39; &#39;ve&#39; &#39;was&#39; &#39;words&#39; &#39;worst&#39; &#39;you&#39;]
-Count encoding doc 1: [1 1 1 2 0 1 0 0 2 0 0 0 1 0 1 1 0 1 0 1 1 0 1 1 1 1 0 0 0 0 0 0 1 1 1 2 1
- 0 1 0 0 0 0 1 1 1 0 0 0 1 0 1 0 1 1 0 1 0 2 1 1 0 1 1 1 0 4 1 0 1 0 1 0 0
- 1 0 0 1]
-Count encoding doc 2: [0 0 0 3 1 0 1 1 0 1 2 1 0 1 0 0 1 0 1 0 0 1 0 0 0 0 1 1 1 1 1 1 0 1 0 0 0
- 1 0 1 1 1 1 0 0 0 1 1 1 0 1 0 1 0 0 1 0 1 0 0 0 1 0 0 0 1 4 0 1 0 1 2 2 1
- 0 1 1 0]
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="classification">
-<h3>Classification<a class="headerlink" href="#classification" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>With this tabular representation, we can fit any model (e.g. Logistic regression)</p></li>
-<li><p>Visualize coefficients: which words are indicative for positive/negative reviews?</p></li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegressionCV</span>
-
-<span class="c1"># Fit CountVectorizer on the first 5000 reviews </span>
-<span class="n">data_size</span> <span class="o">=</span> <span class="mi">5000</span> <span class="c1"># You can get a few % better in the full dataset, but takes longer</span>
-<span class="n">train_text</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">reverse_word_index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">train_data</span><span class="p">[</span><span class="n">d</span><span class="p">]])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data_size</span><span class="p">)]</span>
-<span class="n">test_text</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">reverse_word_index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">test_data</span><span class="p">[</span><span class="n">d</span><span class="p">]])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data_size</span><span class="p">)]</span>
-
-<span class="n">vect</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">()</span>
-<span class="n">train_text_vec</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">train_text</span><span class="p">)</span>
-<span class="n">test_text_vec</span> <span class="o">=</span> <span class="n">vect</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_text</span><span class="p">)</span>
-
-<span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegressionCV</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_text_vec</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">[:</span><span class="n">data_size</span><span class="p">])</span>
-<span class="n">acc</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">test_text_vec</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">[:</span><span class="n">data_size</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Logistic regression accuracy:&quot;</span><span class="p">,</span><span class="n">acc</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Logistic regression accuracy: 0.8538
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plot_important_features</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span> <span class="n">feature_names</span><span class="p">,</span> <span class="n">top_n</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-    <span class="n">inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
-    <span class="n">low</span> <span class="o">=</span> <span class="n">inds</span><span class="p">[:</span><span class="n">top_n</span><span class="p">]</span>
-    <span class="n">high</span> <span class="o">=</span> <span class="n">inds</span><span class="p">[</span><span class="o">-</span><span class="n">top_n</span><span class="p">:]</span>
-    <span class="n">important</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">])</span>
-    <span class="n">myrange</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">important</span><span class="p">))</span>
-    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">top_n</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">top_n</span>
-    
-    <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">myrange</span><span class="p">,</span> <span class="n">coef</span><span class="p">[</span><span class="n">important</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">myrange</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">feature_names</span><span class="p">[</span><span class="n">important</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">.7</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">top_n</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_frame_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">,</span> <span class="mf">3.5</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">))</span>
-<span class="n">plot_important_features</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vect</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()),</span> <span class="n">top_n</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/546bd1866d415f6421e6e0e148fdae961fab217912d04870d83a88cf94a1a3eb.png" src="../_images/546bd1866d415f6421e6e0e148fdae961fab217912d04870d83a88cf94a1a3eb.png" />
-</div>
-</div>
-</section>
-<section id="preprocessing">
-<h3>Preprocessing<a class="headerlink" href="#preprocessing" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Tokenization: how to you split text into words? On spaces only? Also -, ` ?</p></li>
-<li><p>Stemming: naive reduction to word stems. E.g. ‘the meeting’ to ‘the meet’</p>
-<ul>
+<li><p>Tokenization: how to you split text into words / tokens?</p></li>
+<li><p>Stemming: naive reduction to word stems. E.g. ‘the meeting’ to ‘the meet’</p></li>
 <li><p>Lemmatization: smarter reduction (NLP-based). E.g. distinguishes between nouns and verbs</p></li>
-</ul>
-</li>
 <li><p>Discard stop words (‘the’, ‘an’,…)</p></li>
-<li><p>Only use <span class="math notranslate nohighlight">\(N\)</span> (e.g. 10000) most frequent words</p></li>
-<li><p>Or, use a hash function (risks collisions)</p></li>
+<li><p>Only use <span class="math notranslate nohighlight">\(N\)</span> (e.g. 10000) most frequent words, or a hash function</p></li>
 <li><p>n-grams: Use combinations of <span class="math notranslate nohighlight">\(n\)</span> adjacent words next to individual words</p>
 <ul>
 <li><p>e.g. 2-grams: “awesome movie”, “movie with”, “with creative”, …</p></li>
 </ul>
 </li>
 <li><p>Character n-grams: combinations of <span class="math notranslate nohighlight">\(n\)</span> adjacent letters: ‘awe’, ‘wes’, ‘eso’,…</p></li>
-<li><p>Useful libraries: <a class="reference external" href="https://www.nltk.org/">nltk</a>, <a class="reference external" href="https://spacy.io/">spaCy</a>, <a class="reference external" href="https://radimrehurek.com/gensim/">gensim</a>,…</p></li>
+<li><p>Subword tokenizers: graceful splits “unbelievability” -&gt; un, believ, abil, ity</p></li>
+<li><p>Useful libraries: <a class="reference external" href="https://www.nltk.org/">nltk</a>, <a class="reference external" href="https://spacy.io/">spaCy</a>, <a class="reference external" href="https://radimrehurek.com/gensim/">gensim</a>, <a class="reference external" href="https://huggingface.co/docs/tokenizers/index">HuggingFace tokenizers</a>,…</p></li>
 </ul>
 </section>
 <section id="scaling">
 <h3>Scaling<a class="headerlink" href="#scaling" title="Link to this heading">#</a></h3>
 <ul class="simple">
+<li><p>Only for classical models, LLMs use subword tokenizers and dense tokens from embedding layers (see later)</p></li>
 <li><p>L2 Normalization (vector norm): sum of squares of all word values equals 1</p>
 <ul>
 <li><p>Normalized Euclidean distance is equivalent to cosine distance</p></li>
@@ -782,14 +584,7 @@ $<span class="math notranslate nohighlight">\( t_i = \frac{t_i}{\| t\|_2 }\)</sp
 </ul>
 <div class="math notranslate nohighlight">
 \[ t_i = t_i \cdot log(\frac{N}{|\{d \in D : t_i \in d\}|})\]</div>
-<ul class="simple">
-<li><p>Usually done in preprocessing, e.g. sklearn <code class="docutils literal notranslate"><span class="pre">Normalizer</span></code> or <code class="docutils literal notranslate"><span class="pre">TfidfTransformer</span></code></p>
-<ul>
-<li><p>L2 normalization can also be done in a <code class="docutils literal notranslate"><span class="pre">Lambda</span></code> layer</p></li>
-</ul>
-</li>
-</ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Lambda</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </section>
@@ -818,7 +613,41 @@ $<span class="math notranslate nohighlight">\( t_i = \frac{t_i}{\| t\|_2 }\)</sp
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load data with 10000 words</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">random_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchtext.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">IMDB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchtext.data.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_tokenizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytorch_lightning</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">get_tokenizer</span><span class="p">(</span><span class="s2">&quot;basic_english&quot;</span><span class="p">)</span>
+
+<span class="c1"># Build vocabulary from training set only</span>
+<span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">IMDB</span><span class="p">(</span><span class="n">split</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">):</span>
+    <span class="n">counter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+
+<span class="n">vocab_size</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">vocab</span> <span class="o">=</span> <span class="p">{</span><span class="n">word</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">))}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">keras.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">imdb</span>
+
+<span class="c1"># Custom implementation of one-hot-encoding. </span>
+<span class="c1"># dimension is the dimensionality of the output (default 10000).</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">vectorize_sequences</span><span class="p">(</span><span class="n">sequences</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">sequences</span><span class="p">),</span> <span class="n">dimension</span><span class="p">))</span> <span class="c1"># create empty vector of length N</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sequence</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sequences</span><span class="p">):</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">sequence</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span>  <span class="c1"># set specific indices of results[i] to 1s</span>
+    <span class="k">return</span> <span class="n">results</span>
+
+<span class="c1"># Load data with 10000 words</span>
 <span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">),</span> <span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_labels</span><span class="p">)</span> <span class="o">=</span> <span class="n">imdb</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">num_words</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
 
 <span class="c1"># One-hot-encoding</span>
@@ -890,12 +719,9 @@ $<span class="math notranslate nohighlight">\( t_i = \frac{t_i}{\| t\|_2 }\)</sp
 <section id="evaluation">
 <h3>Evaluation<a class="headerlink" href="#evaluation" title="Link to this heading">#</a></h3>
 <ul class="simple">
+<li><p>IMDB dataset of movie reviews (label is ‘positive’ or ‘negative’)</p></li>
 <li><p>Take a validation set of 10,000 samples from the training set</p></li>
-<li><p>The validation loss peaks after a few epochs, after which the model starts to overfit</p>
-<ul>
-<li><p>Performance is better than Logistic regression</p></li>
-</ul>
-</li>
+<li><p>The validation loss peaks after a few epochs, after which the model starts to overfit</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -920,7 +746,7 @@ $<span class="math notranslate nohighlight">\( t_i = \frac{t_i}{\| t\|_2 }\)</sp
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/78c1181a48de137eb8345c4c2b063834d0897f3b2d4feedda415e3fd73447270.png" src="../_images/78c1181a48de137eb8345c4c2b063834d0897f3b2d4feedda415e3fd73447270.png" />
+<img alt="../_images/e3a7cd41ee561214540a4cfa0687c67747b3cb2f1d7ff33d48d2567721348e7a.png" src="../_images/e3a7cd41ee561214540a4cfa0687c67747b3cb2f1d7ff33d48d2567721348e7a.png" />
 </div>
 </div>
 <section id="predictions">
@@ -1186,6 +1012,60 @@ _________________________________________________________________
     <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://drive.google.com/uc?id=1ZOd5P9kreaBYg5Oh2n5McC-BozYcsKIH&#39;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span><span class="s2">&quot;glove.txt&quot;</span><span class="p">)</span>
     <span class="n">gdown</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileURLRetrievalError</span><span class="g g-Whitespace">                     </span>Traceback (most recent call last)
+<span class="nn">File ~/miniconda3/envs/mlcourse/lib/python3.10/site-packages/gdown/download.py:267,</span> in <span class="ni">download</span><span class="nt">(url, output, quiet, proxy, speed, use_cookies, verify, id, fuzzy, resume, format, user_agent, log_messages)</span>
+<span class="g g-Whitespace">    </span><span class="mi">266</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">267</span>     <span class="n">url</span> <span class="o">=</span> <span class="n">get_url_from_gdrive_confirmation</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">268</span> <span class="k">except</span> <span class="n">FileURLRetrievalError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+
+<span class="nn">File ~/miniconda3/envs/mlcourse/lib/python3.10/site-packages/gdown/download.py:55,</span> in <span class="ni">get_url_from_gdrive_confirmation</span><span class="nt">(contents)</span>
+<span class="g g-Whitespace">     </span><span class="mi">54</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">55</span>     <span class="k">raise</span> <span class="n">FileURLRetrievalError</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span>         <span class="s2">&quot;Cannot retrieve the public link of the file. &quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span>         <span class="s2">&quot;You may need to change the permission to &quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">58</span>         <span class="s2">&quot;&#39;Anyone with the link&#39;, or have had many accesses. &quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">59</span>         <span class="s2">&quot;Check FAQ in https://github.com/wkentaro/gdown?tab=readme-ov-file#faq.&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span>     <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span> <span class="k">return</span> <span class="n">url</span>
+
+<span class="ne">FileURLRetrievalError</span>: Cannot retrieve the public link of the file. You may need to change the permission to &#39;Anyone with the link&#39;, or have had many accesses. Check FAQ in https://github.com/wkentaro/gdown?tab=readme-ov-file#faq.
+
+<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
+
+<span class="ne">FileURLRetrievalError</span><span class="g g-Whitespace">                     </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">13</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://drive.google.com/uc?id=1ZOd5P9kreaBYg5Oh2n5McC-BozYcsKIH&#39;</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">output</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span><span class="s2">&quot;glove.txt&quot;</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">13</span> <span class="n">gdown</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nn">File ~/miniconda3/envs/mlcourse/lib/python3.10/site-packages/gdown/download.py:278,</span> in <span class="ni">download</span><span class="nt">(url, output, quiet, proxy, speed, use_cookies, verify, id, fuzzy, resume, format, user_agent, log_messages)</span>
+<span class="g g-Whitespace">    </span><span class="mi">268</span>     <span class="k">except</span> <span class="n">FileURLRetrievalError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">269</span>         <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">270</span>             <span class="s2">&quot;Failed to retrieve file url:</span><span class="se">\n\n</span><span class="si">{}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">271</span>             <span class="s2">&quot;You may still be able to access the file from the browser:&quot;</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">276</span>             <span class="n">url_origin</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">277</span>         <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">278</span>         <span class="k">raise</span> <span class="n">FileURLRetrievalError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">280</span> <span class="n">filename_from_url</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">281</span> <span class="n">last_modified_time</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="ne">FileURLRetrievalError</span>: Failed to retrieve file url:
+
+	<span class="n">Cannot</span> <span class="n">retrieve</span> <span class="n">the</span> <span class="n">public</span> <span class="n">link</span> <span class="n">of</span> <span class="n">the</span> <span class="n">file</span><span class="o">.</span> <span class="n">You</span> <span class="n">may</span> <span class="n">need</span> <span class="n">to</span> <span class="n">change</span>
+	<span class="n">the</span> <span class="n">permission</span> <span class="n">to</span> <span class="s1">&#39;Anyone with the link&#39;</span><span class="p">,</span> <span class="ow">or</span> <span class="n">have</span> <span class="n">had</span> <span class="n">many</span> <span class="n">accesses</span><span class="o">.</span>
+	<span class="n">Check</span> <span class="n">FAQ</span> <span class="ow">in</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">wkentaro</span><span class="o">/</span><span class="n">gdown</span><span class="err">?</span><span class="n">tab</span><span class="o">=</span><span class="n">readme</span><span class="o">-</span><span class="n">ov</span><span class="o">-</span><span class="n">file</span><span class="c1">#faq.</span>
+
+<span class="n">You</span> <span class="n">may</span> <span class="n">still</span> <span class="n">be</span> <span class="n">able</span> <span class="n">to</span> <span class="n">access</span> <span class="n">the</span> <span class="n">file</span> <span class="kn">from</span><span class="w"> </span><span class="nn">the</span> <span class="n">browser</span><span class="p">:</span>
+
+	<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">drive</span><span class="o">.</span><span class="n">google</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">uc</span><span class="err">?</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="n">ZOd5P9kreaBYg5Oh2n5McC</span><span class="o">-</span><span class="n">BozYcsKIH</span>
+
+<span class="n">but</span> <span class="n">Gdown</span> <span class="n">can</span><span class="s1">&#39;t. Please check connections and permissions.</span>
 </pre></div>
 </div>
 </div>
@@ -1631,10 +1511,7 @@ _________________________________________________________________
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bag-of-word-representation">Bag of word representation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bag-of-words-with-one-hot-encoding">Bag of words with one-hot-encoding</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#word-counts">Word counts</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classification">Classification</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing">Preprocessing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#text-preprocessing-pipelines">Text preprocessing pipelines</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling">Scaling</a></li>
 </ul>
 </li>
