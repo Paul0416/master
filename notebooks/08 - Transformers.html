@@ -495,6 +495,7 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vision-transformer">Vision transformer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Positional encoding</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
 </ul>
 </li>
@@ -1115,7 +1116,7 @@ Predicted positiveness: 0.8728
 <ul class="simple">
 <li><p>Download the <a class="reference external" href="https://nlp.stanford.edu/projects/glove">GloVe embeddings trained on Wikipedia</a></p></li>
 <li><p>We can now get embeddings for 400,000 English words</p></li>
-<li><p>E.g. ‘queen’ (in 300-dim):</p></li>
+<li><p>E.g. ‘queen’ (50 first values of 300-dim embedding)</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1144,7 +1145,7 @@ Predicted positiveness: 0.8728
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embeddings_index</span><span class="p">[</span><span class="s1">&#39;queen&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embeddings_index</span><span class="p">[</span><span class="s1">&#39;queen&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">50</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1155,38 +1156,7 @@ Predicted positiveness: 0.8728
         0.272, -0.174, -0.466, -0.025,  0.097,  0.301,  0.18 , -0.069,
        -0.205,  0.357, -0.283,  0.281, -0.012,  0.107, -0.244, -0.179,
        -0.132, -0.17 , -0.594,  0.957,  0.204, -0.043,  0.607, -0.069,
-        0.523, -0.548, -0.545,  0.435,  0.445, -0.026, -0.115, -0.186,
-        0.361, -0.251,  0.721, -0.058,  0.344,  0.472,  0.205,  0.7  ,
-        0.487, -0.903, -0.104,  0.127, -0.411,  0.404,  0.096,  0.332,
-        0.07 , -0.197,  0.159,  0.097,  0.558, -0.549,  0.092,  0.234,
-        0.395, -0.11 ,  0.106, -0.258,  0.556, -0.54 ,  0.102, -0.033,
-        0.109, -0.446,  0.228, -0.424,  0.08 , -0.437, -0.203, -0.422,
-        0.525, -0.133, -0.048, -0.555,  0.273, -0.361,  0.392,  0.064,
-        0.195,  0.427,  0.06 ,  0.11 ,  0.05 ,  0.289,  0.288,  0.685,
-        0.41 , -0.253,  0.059, -0.176,  0.086,  0.17 , -0.083, -0.57 ,
-       -0.719,  0.703, -0.379, -0.477, -0.097,  0.14 , -0.019, -0.148,
-        0.487,  0.448,  0.574,  0.54 , -0.139, -0.141,  0.194, -0.009,
-       -0.233,  0.051, -0.429,  0.584,  0.209,  0.751, -0.661, -0.151,
-        0.202, -0.54 ,  0.413,  0.361, -0.382, -0.39 ,  0.154, -0.211,
-       -0.562,  0.519,  0.224,  0.554,  0.058, -0.434,  0.087, -0.551,
-        0.582,  0.828,  0.506,  0.146, -0.36 ,  0.825, -0.253,  0.666,
-        0.329,  0.382, -0.51 ,  0.908, -0.067, -0.621, -0.229,  0.309,
-       -0.217, -0.087, -0.274,  0.216, -0.17 ,  0.364,  0.399, -0.166,
-        0.434, -0.405, -0.199,  0.538, -0.328, -0.763, -0.426, -0.101,
-       -0.349, -0.716, -0.054,  0.516,  0.054, -0.51 , -0.182, -0.367,
-        1.855, -0.567, -0.292,  0.271,  0.519, -0.626,  0.438,  0.043,
-        0.323, -0.198, -0.151, -0.123,  0.161, -0.272, -0.126, -0.204,
-       -0.013, -0.9  , -0.036, -0.449,  0.051, -0.224,  0.287,  0.442,
-       -0.807,  0.109, -0.001,  0.064,  0.011,  0.534, -0.585,  0.341,
-       -0.068,  0.102,  0.04 ,  0.331,  0.106,  0.382, -0.032,  0.066,
-       -0.325,  0.581,  0.478,  0.262, -0.228,  0.452, -0.421, -0.597,
-        0.283,  0.479, -0.191,  0.156,  0.229, -0.317,  0.606, -0.433,
-        0.337, -0.179,  0.502, -0.776,  0.084, -0.61 ,  0.096,  0.724,
-       -0.178,  0.056, -0.295, -0.695,  0.491,  0.051,  0.51 , -0.422,
-        0.427, -0.283,  0.01 ,  0.171, -0.922, -0.312,  0.242, -0.231,
-        0.161,  0.361, -0.146, -0.205, -0.869,  0.228, -0.292,  0.5  ,
-       -0.154, -0.331,  0.698, -0.287, -0.5  ,  0.12 , -0.175, -0.319,
-        0.2  ,  0.252,  0.173,  0.636], dtype=float32)
+        0.523, -0.548], dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -1978,7 +1948,67 @@ Predicted positiveness: 0.8728
 <li><p>2D positional encoding</p></li>
 <li><p>Small MLP head to map CLS token to prediction</p></li>
 </ul>
-<img src="https://raw.githubusercontent.com/ML-course/master/master/notebooks/images/10_vit.png" alt="ml" style="width:50%; margin-left: auto; margin-right: auto;"/><div class="cell docutils container">
+<img src="https://raw.githubusercontent.com/ML-course/master/master/notebooks/images/10_vit.png" alt="ml" style="width:50%; margin-left: auto; margin-right: auto;"/><section id="id5">
+<h3>Positional encoding<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>We implement this pattern and run in across a 2D grid:
+$<span class="math notranslate nohighlight">\(
+PE_{(pos,i)} = \begin{cases}
+  \sin\left(\frac{pos}{10000^{i/d_{\text{model}}}}\right) &amp; \text{if}\hspace{3mm} i \text{ mod } 2=0\\
+  \cos\left(\frac{pos}{10000^{(i-1)/d_{\text{model}}}}\right) &amp; \text{otherwise}\\
+\end{cases}
+\)</span>$</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PositionalEncoding</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d_model</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">5000</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Inputs</span>
+<span class="sd">            d_model - Hidden dimensionality of the input.</span>
+<span class="sd">            max_len - Maximum length of a sequence to expect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># Create matrix of [SeqLen, HiddenDim] representing the positional encoding for max_len inputs</span>
+        <span class="n">pe</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">max_len</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+        <span class="n">position</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_len</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">div_term</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">d_model</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">10000.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">d_model</span><span class="p">))</span>
+        <span class="n">pe</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">position</span> <span class="o">*</span> <span class="n">div_term</span><span class="p">)</span>
+        <span class="n">pe</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">position</span> <span class="o">*</span> <span class="n">div_term</span><span class="p">)</span>
+        <span class="n">pe</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        
+        <span class="c1"># register_buffer =&gt; Tensor which is not a parameter, but should be part of the modules state.</span>
+        <span class="c1"># Used for tensors that need to be on the same device as the module.</span>
+        <span class="c1"># persistent=False tells PyTorch to not add the buffer to the state dict (e.g. when we save the model) </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s1">&#39;pe&#39;</span><span class="p">,</span> <span class="n">pe</span><span class="p">,</span> <span class="n">persistent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pe</span><span class="p">[:,</span> <span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">x</span>
+    
+<span class="n">encod_block</span> <span class="o">=</span> <span class="n">PositionalEncoding</span><span class="p">(</span><span class="n">d_model</span><span class="o">=</span><span class="mi">48</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">96</span><span class="p">)</span>
+<span class="n">pe</span> <span class="o">=</span> <span class="n">encod_block</span><span class="o">.</span><span class="n">pe</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">pe</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdGy&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">pe</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">pe</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Position in sequence&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Hidden dimension&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Positional encoding over hidden dimensions&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">10</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="o">+</span><span class="n">pe</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">10</span><span class="p">)])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">10</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="o">+</span><span class="n">pe</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="mi">10</span><span class="p">)])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/d5916c10c678d157bb6f510766e6d6103b1473a98de34ac66c63c6dc148eb4ca.png" src="../_images/d5916c10c678d157bb6f510766e6d6103b1473a98de34ac66c63c6dc148eb4ca.png" />
+</div>
+</div>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">VisionTransformer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     
@@ -2113,6 +2143,7 @@ Predicted positiveness: 0.8728
 </div>
 </div>
 </div>
+</section>
 <section id="results">
 <h3>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h3>
 <ul class="simple">
@@ -2325,6 +2356,7 @@ Lightning automatically upgraded your loaded checkpoint from v1.6.4 to v2.5.0.po
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vision-transformer">Vision transformer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Positional encoding</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
 </ul>
 </li>
