@@ -528,7 +528,7 @@
 <span class="c1"># Global imports and settings</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">from</span><span class="w"> </span><span class="nn">preamble</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="n">interactive</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># Set to True for interactive plots </span>
+<span class="n">interactive</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># Set to True for interactive plots </span>
 <span class="k">if</span> <span class="n">interactive</span><span class="p">:</span>
     <span class="n">fig_scale</span> <span class="o">=</span> <span class="mf">0.5</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">print_config</span><span class="p">)</span>
@@ -809,6 +809,8 @@
 </div>
 </div>
 </details>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9e24497b939648cc9bea8519f8cf0044", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -830,9 +832,6 @@
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<img alt="../_images/ecda55a9fcc55751c5dcce5ec6da36f434ff3126f896b152ccf0a9dbb324981f.png" src="../_images/ecda55a9fcc55751c5dcce5ec6da36f434ff3126f896b152ccf0a9dbb324981f.png" />
-</div>
 </div>
 <section id="demonstration-on-fashion-mnist">
 <h3>Demonstration on Fashion-MNIST<a class="headerlink" href="#demonstration-on-fashion-mnist" title="Link to this heading">#</a></h3>
@@ -877,7 +876,7 @@
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">):</span>
     <span class="n">subfiglist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X_fm</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    <span class="n">titles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">titles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_fm</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 
 <span class="n">buildFigureList</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">subfiglist</span><span class="p">,</span> <span class="n">titles</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -886,7 +885,7 @@
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/650b1bb80a2a1e51df84109f1a1cac36f2085a2243ab3d2e0b7c3035805d218f.png" src="../_images/650b1bb80a2a1e51df84109f1a1cac36f2085a2243ab3d2e0b7c3035805d218f.png" />
+<img alt="../_images/48c4f21b908d4974352b09c2b54016c59eb4eb7bd0e0a7b689bc0e223ecf9833.png" src="../_images/48c4f21b908d4974352b09c2b54016c59eb4eb7bd0e0a7b689bc0e223ecf9833.png" />
 </div>
 </div>
 <p>Demonstration of convolution with edge filters</p>
@@ -909,6 +908,8 @@
 </div>
 </div>
 </details>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "cb4b7e50debc4ddcb1f8a47d841850c0", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -930,9 +931,6 @@
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<img alt="../_images/c3ae1cd75d7d9b578d2556fa8bf2d3f8bb8500f26ad84a1e4e8e6b1c585302df.png" src="../_images/c3ae1cd75d7d9b578d2556fa8bf2d3f8bb8500f26ad84a1e4e8e6b1c585302df.png" />
-</div>
 </div>
 </section>
 <section id="image-convolution-in-practice">
@@ -968,12 +966,12 @@
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;freq: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s1">, theta: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s1">, sigma: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontdict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span><span class="mi">14</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">})</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "6dcaf93ac1174bed95290de42a206273", "version_major": 2, "version_minor": 0}</script><img alt="../_images/86c85b1a0ad026ea61fcc36f1752b29e4acfe9255739c78a174c1e6832591d1f.png" src="../_images/86c85b1a0ad026ea61fcc36f1752b29e4acfe9255739c78a174c1e6832591d1f.png" />
-</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "e3a9e309dcb24440bffff8f8605d2e6d", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -994,9 +992,6 @@
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<img alt="../_images/61f89a920a3ffd8d1d3bb599120853f69c28c546a1200196929ff6daa116bf1b.png" src="../_images/61f89a920a3ffd8d1d3bb599120853f69c28c546a1200196929ff6daa116bf1b.png" />
-</div>
 </div>
 <p>Demonstration on the Fashion-MNIST data</p>
 <div class="cell tag_hide-input docutils container">
@@ -1016,12 +1011,7 @@
 </div>
 </details>
 </div>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@interact</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">demoGabor2</span><span class="p">(</span><span class="n">frequency</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.05</span><span class="p">),</span> <span class="n">theta</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">3.14</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">sigma</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)):</span>
@@ -1045,9 +1035,8 @@
 </pre></div>
 </div>
 </div>
-</details>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9b7fd21d0c2d457fa6409d0eecad2080", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "a7ebfa13680647bf8019ac4d0922e431", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
@@ -1062,9 +1051,6 @@
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<img alt="../_images/338b92063fb9e3c3582eaa53e89848d2e47b047a0c228259ef32f0f628df3e99.png" src="../_images/338b92063fb9e3c3582eaa53e89848d2e47b047a0c228259ef32f0f628df3e99.png" />
-</div>
 </div>
 </section>
 <section id="filter-banks">
@@ -1137,7 +1123,7 @@
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/97c59919033c74ff520ec6ae50cbb1fb218838c180e79056009c1276c85b458d.png" src="../_images/97c59919033c74ff520ec6ae50cbb1fb218838c180e79056009c1276c85b458d.png" />
+<img alt="../_images/a4940096f640d5b30983e7b9df214fc89e4641aff3a191872d4f9f758098f457.png" src="../_images/a4940096f640d5b30983e7b9df214fc89e4641aff3a191872d4f9f758098f457.png" />
 </div>
 </div>
 </section>
@@ -1177,7 +1163,7 @@
 <li><p>Slide <span class="math notranslate nohighlight">\(d\)</span> filters across the input image (in parallel) -&gt; a (1x1xd) output per patch</p></li>
 <li><p>Reassemble into a <em>feature map</em> with <span class="math notranslate nohighlight">\(d\)</span> ‘channels’, a (width x height x d) tensor.</p></li>
 </ul>
-<img src="https://raw.githubusercontent.com/ML-course/master/master/notebooks/images/10_convolution.png?raw=1" alt="ml" style="width: 400px;  margin-left: auto; margin-right: auto;"/></section>
+<img src="https://raw.githubusercontent.com/ML-course/master/master/notebooks/images/10_convolution.png?raw=1" alt="ml" style="width: 600px;  margin-left: auto; margin-right: auto;"/></section>
 <section id="border-effects-zero-padding">
 <h3>Border effects (zero padding)<a class="headerlink" href="#border-effects-zero-padding" title="Link to this heading">#</a></h3>
 <ul class="simple">
@@ -1330,7 +1316,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "0bf2f9864cc54c3daac197c9775e205d", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "f63f0903aed44141b5331039c3d150a0", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1339,10 +1325,6 @@
         <span class="n">visualize_receptive_field</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="n">option</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/cdde6df4a47786f882ce527edd440ced71853b60a640c9fcfb9b43af8600649f.png" src="../_images/cdde6df4a47786f882ce527edd440ced71853b60a640c9fcfb9b43af8600649f.png" />
-<img alt="../_images/844a8f24a5cbdb35813659e58b45d90cdf945c6468259ecf5fa84266e2c2af37.png" src="../_images/844a8f24a5cbdb35813659e58b45d90cdf945c6468259ecf5fa84266e2c2af37.png" />
 </div>
 </div>
 </section>
@@ -1363,7 +1345,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7fa8befefd72453da8d6106775993439", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "ba7504fe72974165ac4d81250b4a6149", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1371,9 +1353,6 @@
     <span class="n">visualize_receptive_field</span><span class="p">(</span><span class="n">option</span><span class="o">=</span><span class="n">layer_options2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/6773ad61a72d1588066dacab9fb1e416f1c0d101566858c5371dbfeb1a5ee6f0.png" src="../_images/6773ad61a72d1588066dacab9fb1e416f1c0d101566858c5371dbfeb1a5ee6f0.png" />
 </div>
 </div>
 </section>
@@ -2032,7 +2011,7 @@ HPU available: False, using: 0 HPUs
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/f9c4090c9e5371e3477c8ac8c77170ff12bd9d2729487c61082c583dce58f975.png" src="../_images/f9c4090c9e5371e3477c8ac8c77170ff12bd9d2729487c61082c583dce58f975.png" />
+<img alt="../_images/dcad454f1a540dc6eca4946dd21ede406ca3949e2336ede266b037527ee288cf.png" src="../_images/dcad454f1a540dc6eca4946dd21ede406ca3949e2336ede266b037527ee288cf.png" />
 </div>
 </div>
 <section id="data-loader">
@@ -2421,7 +2400,7 @@ HPU available: False, using: 0 HPUs
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/74b1bc17f62a9e2a8092ad0c3cbbe0c3293bec8241de5bd5c049bcd0e54325a0.png" src="../_images/74b1bc17f62a9e2a8092ad0c3cbbe0c3293bec8241de5bd5c049bcd0e54325a0.png" />
+<img alt="../_images/e90fb8a88b6721e45a5c9b3d4f1bc8c3feed009e0f8e193a923162c9e8d8216a.png" src="../_images/e90fb8a88b6721e45a5c9b3d4f1bc8c3feed009e0f8e193a923162c9e8d8216a.png" />
 </div>
 </div>
 <p>We also add Dropout before the Dense layer, and L2 regularization (‘weight decay’) in Adam</p>
@@ -2628,17 +2607,6 @@ HPU available: False, using: 0 HPUs
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/f387b643aa497b74d53a03093022b69af7edff151b5ea1808e58c1123f5576be.png" src="../_images/f387b643aa497b74d53a03093022b69af7edff151b5ea1808e58c1123f5576be.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span> 
-
-<span class="n">histories</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;mnist&quot;</span><span class="p">:</span><span class="n">history</span><span class="p">,</span><span class="s2">&quot;cat&quot;</span><span class="p">:</span><span class="n">history_cat</span><span class="p">,</span><span class="s2">&quot;cat2&quot;</span><span class="p">:</span><span class="n">history_cat2</span><span class="p">}</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../data/histories.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">histories</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-</pre></div>
-</div>
 </div>
 </div>
 </section>
@@ -3058,6 +3026,8 @@ HPU available: False, using: 0 HPUs
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "f5357520fb1646a0b764f6adaabf937e", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <p>Visualization: initialization (top) and after 100 optimization steps (bottom)</p>
 <ul class="simple">
@@ -3071,14 +3041,11 @@ HPU available: False, using: 0 HPUs
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/8648953f0ec5fa35d4e0805362e3afb1226c5aa3ae8a4b6bc902b7f277e543a0.png" src="../_images/8648953f0ec5fa35d4e0805362e3afb1226c5aa3ae8a4b6bc902b7f277e543a0.png" />
-<img alt="../_images/d66e917bbbfba5493531fdf1c8a79f683581eadd204acb06a1b099544e5dd48e.png" src="../_images/d66e917bbbfba5493531fdf1c8a79f683581eadd204acb06a1b099544e5dd48e.png" />
-</div>
 </div>
 <p>Gradient Ascent in input space in PyTorch</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a random input tensor and tell Adam to optimize the pixels</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="p">(</span><span class="n">sz</span><span class="p">,</span> <span class="n">sz</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="o">/</span> <span class="mi">255</span>
+<span class="n">img_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
 <span class="n">img_tensor</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">()</span>
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">([</span><span class="n">img_tensor</span><span class="p">],</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
 </pre></div>
@@ -3101,7 +3068,9 @@ HPU available: False, using: 0 HPUs
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">FilterVisualizer</span><span class="p">():</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FilterVisualizer</span><span class="p">():</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">56</span><span class="p">,</span> <span class="n">upscaling_steps</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">upscaling_factor</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">upscaling_steps</span> <span class="o">=</span> <span class="n">upscaling_steps</span>
@@ -3212,9 +3181,9 @@ HPU available: False, using: 0 HPUs
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/e5a5973b08ed6addd63b428dc56f1bb73a6a6514a73aec52bfe8264bde7ae41a.png" src="../_images/e5a5973b08ed6addd63b428dc56f1bb73a6a6514a73aec52bfe8264bde7ae41a.png" />
-<img alt="../_images/459c4d47305a33dc255937650fa8b24b96be3ea4d650baec9a6454dfb395efbb.png" src="../_images/459c4d47305a33dc255937650fa8b24b96be3ea4d650baec9a6454dfb395efbb.png" />
-<img alt="../_images/efa3a94b6a74e41ae9b56810dd7181ad6759be4e35806c012e23cd091a06468b.png" src="../_images/efa3a94b6a74e41ae9b56810dd7181ad6759be4e35806c012e23cd091a06468b.png" />
+<img alt="../_images/797885ce38f37f9ac8fab255bf1e1f588e296ed387cf98084326409cb7357cd0.png" src="../_images/797885ce38f37f9ac8fab255bf1e1f588e296ed387cf98084326409cb7357cd0.png" />
+<img alt="../_images/50616a82d0b20a76d5a42c24f670f8f63e95873b4a3e9da32decdabb3f29638c.png" src="../_images/50616a82d0b20a76d5a42c24f670f8f63e95873b4a3e9da32decdabb3f29638c.png" />
+<img alt="../_images/0cf92ee12ecf1ce3ad09cf0d708794851a052523789ee33548761b2562fca42e.png" src="../_images/0cf92ee12ecf1ce3ad09cf0d708794851a052523789ee33548761b2562fca42e.png" />
 </div>
 </div>
 <ul class="simple">
@@ -3319,9 +3288,9 @@ Estimated Total Size (MB): 167.84
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/1917b2c5062197f8ae273bb565b4310ca8c6af9d4c9b5b3baec3bc312d84cbc4.png" src="../_images/1917b2c5062197f8ae273bb565b4310ca8c6af9d4c9b5b3baec3bc312d84cbc4.png" />
-<img alt="../_images/f8d4199591059268c747fee9b91bad33084f394bf5ec7a0d8e8cb99180269287.png" src="../_images/f8d4199591059268c747fee9b91bad33084f394bf5ec7a0d8e8cb99180269287.png" />
-<img alt="../_images/19357fce4d7370c9fac235a16cc2d21606c595a5620c7f65ce45b4f3f7425df3.png" src="../_images/19357fce4d7370c9fac235a16cc2d21606c595a5620c7f65ce45b4f3f7425df3.png" />
+<img alt="../_images/6303ca9e535007c1ce3fe9a70a9749be8b0b82129bd5ec87178b1d70c4bd126f.png" src="../_images/6303ca9e535007c1ce3fe9a70a9749be8b0b82129bd5ec87178b1d70c4bd126f.png" />
+<img alt="../_images/9718744c1329152715008c1dd5d1f868fcaf875bf81b424628e40efc42c40183.png" src="../_images/9718744c1329152715008c1dd5d1f868fcaf875bf81b424628e40efc42c40183.png" />
+<img alt="../_images/84662ec7a3e32c7b3aa50773c280a3fae95b2797a054d14cb9d84a8b5ace86ef.png" src="../_images/84662ec7a3e32c7b3aa50773c280a3fae95b2797a054d14cb9d84a8b5ace86ef.png" />
 </div>
 </div>
 <ul class="simple">
@@ -3337,9 +3306,9 @@ Estimated Total Size (MB): 167.84
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/38c1b5a5bd4ac2ea6bc5290ec9a4bc4bf74b779cafd21d60391d470ace342575.png" src="../_images/38c1b5a5bd4ac2ea6bc5290ec9a4bc4bf74b779cafd21d60391d470ace342575.png" />
-<img alt="../_images/44d1b6f24e07af19c36336253fb0b91c76b5b538f2046eaa7de47b4ed011bbaf.png" src="../_images/44d1b6f24e07af19c36336253fb0b91c76b5b538f2046eaa7de47b4ed011bbaf.png" />
-<img alt="../_images/fb7697bebfcd06e992184f92343f794e0fdd690ed700f214017e5d21252a3edb.png" src="../_images/fb7697bebfcd06e992184f92343f794e0fdd690ed700f214017e5d21252a3edb.png" />
+<img alt="../_images/2935cfa0aeadd0e1eb72a116664fc92985d8f5adbc177de4edb93f4c8d557889.png" src="../_images/2935cfa0aeadd0e1eb72a116664fc92985d8f5adbc177de4edb93f4c8d557889.png" />
+<img alt="../_images/461009a0b446cb9eb73abda9f7df94f495ba36b9359a62b46b481264fca8595c.png" src="../_images/461009a0b446cb9eb73abda9f7df94f495ba36b9359a62b46b481264fca8595c.png" />
+<img alt="../_images/b0f814f5e66e564db7605e1a2b6908d7a2cc3502e6473b68c24b9ceb4b0650f5.png" src="../_images/b0f814f5e66e564db7605e1a2b6908d7a2cc3502e6473b68c24b9ceb4b0650f5.png" />
 </div>
 </div>
 <ul class="simple">
@@ -3355,9 +3324,9 @@ Estimated Total Size (MB): 167.84
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/04d52bba1fea6a8012b334f90e0dd0a93e37bdc8b7d8f411b395a8077fe2415d.png" src="../_images/04d52bba1fea6a8012b334f90e0dd0a93e37bdc8b7d8f411b395a8077fe2415d.png" />
-<img alt="../_images/625e080e0f6830f238497c94604e3e4178db6d2c1392ac413192f3e8ccc6febe.png" src="../_images/625e080e0f6830f238497c94604e3e4178db6d2c1392ac413192f3e8ccc6febe.png" />
-<img alt="../_images/3861fd14ac518f081d9d2141143d028294d7eb275e8b9d6ad12c794be560f203.png" src="../_images/3861fd14ac518f081d9d2141143d028294d7eb275e8b9d6ad12c794be560f203.png" />
+<img alt="../_images/7825809a32db0fd1c97a09e08c190a8cd8658a0f58854da4e4d6c477f3bf569e.png" src="../_images/7825809a32db0fd1c97a09e08c190a8cd8658a0f58854da4e4d6c477f3bf569e.png" />
+<img alt="../_images/fbca98f5af61b7e0ffd782f48abbd923583939b2a5cafd4e59540d38d6709fa4.png" src="../_images/fbca98f5af61b7e0ffd782f48abbd923583939b2a5cafd4e59540d38d6709fa4.png" />
+<img alt="../_images/37d17681c975a3f6c7c58440497479dab3394ff9f3fad684e5be9965365b5491.png" src="../_images/37d17681c975a3f6c7c58440497479dab3394ff9f3fad684e5be9965365b5491.png" />
 </div>
 </div>
 <ul class="simple">
@@ -3373,9 +3342,9 @@ Estimated Total Size (MB): 167.84
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/8bac94542c5a0572a308a1ef79fe150834da97c9a61112cb36d3f50cf9734ea4.png" src="../_images/8bac94542c5a0572a308a1ef79fe150834da97c9a61112cb36d3f50cf9734ea4.png" />
-<img alt="../_images/45e2ebbe7a03b993ccd01da4a483f781ef1b30358a33025ed0793b1a85a9d475.png" src="../_images/45e2ebbe7a03b993ccd01da4a483f781ef1b30358a33025ed0793b1a85a9d475.png" />
-<img alt="../_images/a24b8f8d9e415b087f6eb0d187e5aa01c8cab2aba3cb05a9d499b67766c753af.png" src="../_images/a24b8f8d9e415b087f6eb0d187e5aa01c8cab2aba3cb05a9d499b67766c753af.png" />
+<img alt="../_images/09105235057d4c2970414b310c86b53f67c869163a5e6407375084c003322c00.png" src="../_images/09105235057d4c2970414b310c86b53f67c869163a5e6407375084c003322c00.png" />
+<img alt="../_images/8c4a473c4dae3ed6188115830429568a86e3c16f270818874bd5cdc851477510.png" src="../_images/8c4a473c4dae3ed6188115830429568a86e3c16f270818874bd5cdc851477510.png" />
+<img alt="../_images/20dc7a58b18261c87714cc30759aba954719c3021babf01ab121f17768ef1814.png" src="../_images/20dc7a58b18261c87714cc30759aba954719c3021babf01ab121f17768ef1814.png" />
 </div>
 </div>
 </section>
@@ -3419,7 +3388,9 @@ Estimated Total Size (MB): 167.84
 <p>ResNet50 model, image of class Elephant, top-8 channels (highest weighst)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">gradCAM</span><span class="p">(</span><span class="n">img_path</span><span class="p">,</span> <span class="n">show_channels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">gradCAM</span><span class="p">(</span><span class="n">img_path</span><span class="p">,</span> <span class="n">show_channels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
     <span class="n">target_layer</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">layer4</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -3582,6 +3553,111 @@ Estimated Total Size (MB): 167.84
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Faster data loader, but needs to be stored on file to be pickled</span>
+<span class="n">dataset_code</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">import cv2</span>
+<span class="s2">import torch</span>
+<span class="s2">from torch.utils.data import Dataset</span>
+
+<span class="s2">class AlbumentationsImageDataset(Dataset):</span>
+<span class="s2">    def __init__(self, image_folder_dataset, transform=None):</span>
+<span class="s2">        self.image_folder = image_folder_dataset</span>
+<span class="s2">        self.transform = transform</span>
+
+<span class="s2">    def __getitem__(self, idx):</span>
+<span class="s2">        img_path, label = self.image_folder.samples[idx]</span>
+<span class="s2">        image = cv2.imread(img_path)</span>
+<span class="s2">        if image is None:</span>
+<span class="s2">            raise RuntimeError(f&quot;Failed to load image at </span><span class="si">{img_path}</span><span class="s2">&quot;)</span>
+<span class="s2">        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)</span>
+
+<span class="s2">        if self.transform:</span>
+<span class="s2">            image = self.transform(image=image)[&quot;image&quot;]</span>
+
+<span class="s2">        return image, label</span>
+
+<span class="s2">    def __len__(self):</span>
+<span class="s2">        return len(self.image_folder)</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;fast_dataset.py&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dataset_code</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">albumentations.pytorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToTensorV2</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">albumentations</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">A</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fast_dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">AlbumentationsImageDataset</span>
+
+<span class="n">num_workers</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1">#multiprocessing.cpu_count()</span>
+
+<span class="c1"># Much faster version of the data module</span>
+<span class="c1"># Uses Albumentations to do data augmentation in GPU instead of CPU</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FastCatDataModule</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningDataModule</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">img_size</span><span class="o">=</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">num_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">=</span> <span class="n">data_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">img_size</span> <span class="o">=</span> <span class="n">img_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">=</span> <span class="n">num_workers</span> <span class="k">if</span> <span class="n">num_workers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_transform</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+            <span class="n">A</span><span class="o">.</span><span class="n">RandomScale</span><span class="p">(</span><span class="n">scale_limit</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>  <span class="c1"># Random zoom-in up to 125%</span>
+            <span class="n">A</span><span class="o">.</span><span class="n">PadIfNeeded</span><span class="p">(</span><span class="n">min_height</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">min_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">border_mode</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>  <span class="c1"># pad if needed</span>
+            <span class="n">A</span><span class="o">.</span><span class="n">RandomCrop</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="n">A</span><span class="o">.</span><span class="n">HorizontalFlip</span><span class="p">(),</span>
+            <span class="n">A</span><span class="o">.</span><span class="n">Rotate</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">40</span><span class="p">),</span>
+            <span class="n">A</span><span class="o">.</span><span class="n">Affine</span><span class="p">(</span><span class="n">shear</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+            <span class="n">A</span><span class="o">.</span><span class="n">ColorJitter</span><span class="p">(</span><span class="n">brightness</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">contrast</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">saturation</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+            <span class="n">A</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)),</span>
+            <span class="n">ToTensorV2</span><span class="p">()</span>
+        <span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">val_transform</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+            <span class="n">A</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="n">A</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">std</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)),</span>
+            <span class="n">ToTensorV2</span><span class="p">()</span>
+        <span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">train_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="s2">&quot;train&quot;</span><span class="p">)</span>
+        <span class="n">val_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="s2">&quot;validation&quot;</span><span class="p">)</span>
+
+        <span class="n">base_train_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">ImageFolder</span><span class="p">(</span><span class="n">train_dir</span><span class="p">)</span>
+        <span class="n">base_val_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">ImageFolder</span><span class="p">(</span><span class="n">val_dir</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_dataset</span> <span class="o">=</span> <span class="n">AlbumentationsImageDataset</span><span class="p">(</span><span class="n">base_train_dataset</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">train_transform</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val_dataset</span> <span class="o">=</span> <span class="n">AlbumentationsImageDataset</span><span class="p">(</span><span class="n">base_val_dataset</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">val_transform</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">train_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DataLoader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">train_dataset</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">num_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
+            <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">persistent_workers</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">val_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DataLoader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">val_dataset</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">num_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
+            <span class="n">pin_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">persistent_workers</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torchvision.models</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">models</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pytorch_lightning</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
@@ -3656,7 +3732,7 @@ Estimated Total Size (MB): 167.84
 
 <span class="k">def</span><span class="w"> </span><span class="nf">transfer_trainer</span><span class="p">(</span><span class="n">mode</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training mode: </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">data_module</span> <span class="o">=</span> <span class="n">CatDataModule</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+    <span class="n">data_module</span> <span class="o">=</span> <span class="n">FastCatDataModule</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">TransferCatClassifier</span><span class="p">(</span><span class="n">finetune_mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
     <span class="n">metric_tracker</span> <span class="o">=</span> <span class="n">MetricTracker</span><span class="p">()</span>
 
@@ -3684,33 +3760,6 @@ Estimated Total Size (MB): 167.84
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training mode: head
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPU available: True (mps), used: True
-TPU available: False, using: 0 TPU cores
-HPU available: False, using: 0 HPUs
-
-  | Name       | Type              | Params | Mode 
----------------------------------------------------------
-0 | backbone   | Sequential        | 11.2 M | train
-1 | classifier | Linear            | 513    | train
-2 | loss_fn    | BCEWithLogitsLoss | 0      | train
-3 | accuracy   | BinaryAccuracy    | 0      | train
----------------------------------------------------------
-513       Trainable params
-11.2 M    Non-trainable params
-11.2 M    Total params
-44.708    Total estimated model params size (MB)
-70        Modules in train mode
-0         Modules in eval mode
-</pre></div>
-</div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "89e6c79c34ce4f2785c8264635991117", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`Trainer.fit` stopped: `max_epochs=30` reached.
-</pre></div>
-</div>
-</div>
 </div>
 <p>Fast feature extraction for cats and dogs</p>
 <ul class="simple">
@@ -3733,7 +3782,7 @@ HPU available: False, using: 0 HPUs
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/b527e314926c0aa9dcf92563e2728288706d33564c758d90ee5ebe549edd46fd.png" src="../_images/b527e314926c0aa9dcf92563e2728288706d33564c758d90ee5ebe549edd46fd.png" />
+<img alt="../_images/8158a2c09ab3e4d6d37df07772f17bdaa2e19d8cbafe6a5724e52fa5475ce45f.png" src="../_images/8158a2c09ab3e4d6d37df07772f17bdaa2e19d8cbafe6a5724e52fa5475ce45f.png" />
 </div>
 </div>
 </section>
@@ -3762,50 +3811,11 @@ HPU available: False, using: 0 HPUs
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training mode: last_block
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPU available: True (mps), used: True
-TPU available: False, using: 0 TPU cores
-HPU available: False, using: 0 HPUs
-
-  | Name       | Type              | Params | Mode 
----------------------------------------------------------
-0 | resnet     | ResNet            | 11.2 M | train
-1 | classifier | Linear            | 513    | train
-2 | loss_fn    | BCEWithLogitsLoss | 0      | train
-3 | accuracy   | BinaryAccuracy    | 0      | train
----------------------------------------------------------
-8.4 M     Trainable params
-2.8 M     Non-trainable params
-11.2 M    Total params
-44.708    Total estimated model params size (MB)
-71        Modules in train mode
-0         Modules in eval mode
-</pre></div>
-</div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "0ba1cd06530d463fbdc486a81cf4c4e0", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>python(39092) MallocStackLogging: can&#39;t turn off malloc stack logging because it was not enabled.
-python(39096) MallocStackLogging: can&#39;t turn off malloc stack logging because it was not enabled.
-python(39130) MallocStackLogging: can&#39;t turn off malloc stack logging because it was not enabled.
-python(39131) MallocStackLogging: can&#39;t turn off malloc stack logging because it was not enabled.
-python(39132) MallocStackLogging: can&#39;t turn off malloc stack logging because it was not enabled.
-python(39133) MallocStackLogging: can&#39;t turn off malloc stack logging because it was not enabled.
-</pre></div>
-</div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`Trainer.fit` stopped: `max_epochs=30` reached.
-</pre></div>
-</div>
-</div>
 </div>
 <p>Partial finetuning for cats and dogs</p>
 <ul class="simple">
-<li><p>Performance increases to 96-97% accuracy in few epochs</p></li>
-<li><p>No further increase, and much overfitting (even with data augmentation)</p>
-<ul>
-<li><p>More regularization needed to keep learning</p></li>
-</ul>
-</li>
+<li><p>Performance increases slightly to 95% accuracy in few epochs</p></li>
+<li><p>No further increase with longer training</p></li>
 <li><p>8.4 million trainable parameters</p></li>
 </ul>
 <div class="cell docutils container">
@@ -3815,7 +3825,7 @@ python(39133) MallocStackLogging: can&#39;t turn off malloc stack logging becaus
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/559d3d7dc6b1fa0a872d4f990d21d281e497009cfdec944687029f225ee24155.png" src="../_images/559d3d7dc6b1fa0a872d4f990d21d281e497009cfdec944687029f225ee24155.png" />
+<img alt="../_images/f7cc8a772457294f7c51320bcfb904ea5bb4f5ccad5347b0fede1cd89e08b33f.png" src="../_images/f7cc8a772457294f7c51320bcfb904ea5bb4f5ccad5347b0fede1cd89e08b33f.png" />
 </div>
 </div>
 </section>
@@ -3846,37 +3856,10 @@ python(39133) MallocStackLogging: can&#39;t turn off malloc stack logging becaus
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training mode: full
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPU available: True (mps), used: True
-TPU available: False, using: 0 TPU cores
-HPU available: False, using: 0 HPUs
-
-  | Name       | Type              | Params | Mode 
----------------------------------------------------------
-0 | resnet     | ResNet            | 11.2 M | train
-1 | classifier | Linear            | 513    | train
-2 | loss_fn    | BCEWithLogitsLoss | 0      | train
-3 | accuracy   | BinaryAccuracy    | 0      | train
----------------------------------------------------------
-11.2 M    Trainable params
-0         Non-trainable params
-11.2 M    Total params
-44.708    Total estimated model params size (MB)
-71        Modules in train mode
-0         Modules in eval mode
-</pre></div>
-</div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "92526964be184130ab4a6ce220ed1a71", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`Trainer.fit` stopped: `max_epochs=30` reached.
-</pre></div>
-</div>
-</div>
 </div>
 <p>End-to-end finetuning for cats and dogs</p>
 <ul class="simple">
-<li><p>Very similar behavior, maybe slightly better, but also overfitting.</p></li>
+<li><p>Very similar behavior, but more noisy</p></li>
 <li><p>Our dataset is likely too small to learn a better embedding</p></li>
 <li><p>11.2 million trainable parameters</p></li>
 </ul>
@@ -3887,7 +3870,7 @@ HPU available: False, using: 0 HPUs
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/ef49689b2bdf67cb8bdf12ce2e16b8294f1a9d2925c655320038ac8f44f0ba9c.png" src="../_images/ef49689b2bdf67cb8bdf12ce2e16b8294f1a9d2925c655320038ac8f44f0ba9c.png" />
+<img alt="../_images/720d91727af078b8a36553210a9ec9d2c055f6cf5924457e2f48e62cc1582c80.png" src="../_images/720d91727af078b8a36553210a9ec9d2c055f6cf5924457e2f48e62cc1582c80.png" />
 </div>
 </div>
 <div class="cell docutils container">

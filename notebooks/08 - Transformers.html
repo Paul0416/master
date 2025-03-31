@@ -767,7 +767,7 @@ $<span class="math notranslate nohighlight">\( t_i = \frac{t_i}{\| t\|_2 }\)</sp
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/a63703bd9e34c63f0946b509b3f0fecd3f05bedbb53508aea965c6f0278b2d42.png" src="../_images/a63703bd9e34c63f0946b509b3f0fecd3f05bedbb53508aea965c6f0278b2d42.png" />
+<img alt="../_images/9571ec43abf661ec935dc33fe05c73a962efceb2817032c77a1db7e692de7dcf.png" src="../_images/9571ec43abf661ec935dc33fe05c73a962efceb2817032c77a1db7e692de7dcf.png" />
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`Trainer.fit` stopped: `max_epochs=15` reached.
 </pre></div>
 </div>
@@ -837,15 +837,15 @@ $<span class="math notranslate nohighlight">\( t_i = \frac{t_i}{\| t\|_2 }\)</sp
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Review 0:
  [START] please give this one a miss br br [UNK] [UNK] and the rest of the cast rendered terrible performances the show is flat flat flat br br i don&#39;t know how michael madison could have allowed this one on his plate he almost seemed to know this wasn&#39;t going to work out and his performance was quite [UNK] so all you madison fans give this a miss
-Predicted positiveness: 0.15110373
+Predicted positiveness: 0.18589897
 
 Review 16:
  [START] from 1996 first i watched this movie i feel never reach the end of my satisfaction i feel that i want to watch more and more until now my god i don&#39;t believe it was ten years ago and i can believe that i almost remember every word of the dialogues i love this movie and i love this novel absolutely perfection i love willem [UNK] he has a strange voice to spell the words black night and i always say it for many times never being bored i love the music of it&#39;s so much made me come into another world deep in my heart anyone can feel what i feel and anyone could make the movie like this i don&#39;t believe so thanks thanks
-Predicted positiveness: 0.99687344
+Predicted positiveness: 0.999258
 
 Review X:
  [START] the restaurant is not too terrible
-Predicted positiveness: 0.8728
+Predicted positiveness: 0.4308
 </pre></div>
 </div>
 </div>
@@ -992,7 +992,7 @@ Predicted positiveness: 0.8728
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/35cb79d1fbd5abc638032b643022d29bc9c41e6629279fa2ac9a2a1815e95410.png" src="../_images/35cb79d1fbd5abc638032b643022d29bc9c41e6629279fa2ac9a2a1815e95410.png" />
+<img alt="../_images/48e37d0fcc838ff85f6a3641a936d8944ad0fd540ef27bd7ed986a523aa1ffd9.png" src="../_images/48e37d0fcc838ff85f6a3641a936d8944ad0fd540ef27bd7ed986a523aa1ffd9.png" />
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`Trainer.fit` stopped: `max_epochs=15` reached.
 </pre></div>
 </div>
@@ -1138,7 +1138,25 @@ Predicted positiveness: 0.8728
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found 400000 word vectors.
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;../data&#39;</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">embeddings_index</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="ne">----&gt; </span><span class="mi">8</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;glove.txt&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>         <span class="n">word</span><span class="p">,</span> <span class="n">coefs</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nn">File ~/miniconda3/envs/mlcourse/lib/python3.10/site-packages/IPython/core/interactiveshell.py:324,</span> in <span class="ni">_modified_open</span><span class="nt">(file, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">317</span> <span class="k">if</span> <span class="n">file</span> <span class="ow">in</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">}:</span>
+<span class="g g-Whitespace">    </span><span class="mi">318</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">319</span>         <span class="sa">f</span><span class="s2">&quot;IPython won&#39;t let you open fd=</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> by default &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">320</span>         <span class="s2">&quot;as it is likely to crash IPython. If you know what you are doing, &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">321</span>         <span class="s2">&quot;you can use builtins&#39; open.&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">322</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">324</span> <span class="k">return</span> <span class="n">io_open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;../data/glove.txt&#39;
 </pre></div>
 </div>
 </div>
@@ -1146,17 +1164,6 @@ Predicted positiveness: 0.8728
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embeddings_index</span><span class="p">[</span><span class="s1">&#39;queen&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">50</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.222,  0.065, -0.086,  0.513,  0.325, -0.129,  0.083,  0.092,
-       -0.309, -0.941, -0.089, -0.108,  0.211,  0.701,  0.268, -0.04 ,
-        0.174, -0.308, -0.052, -0.175, -0.841,  0.192, -0.138,  0.385,
-        0.272, -0.174, -0.466, -0.025,  0.097,  0.301,  0.18 , -0.069,
-       -0.205,  0.357, -0.283,  0.281, -0.012,  0.107, -0.244, -0.179,
-       -0.132, -0.17 , -0.594,  0.957,  0.204, -0.043,  0.607, -0.069,
-        0.523, -0.548], dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -1269,12 +1276,6 @@ Predicted positiveness: 0.8728
         
         
         
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/0ad9a4820841e0a789531cccd4bfddfc45ef11093d441789c5a7c6daa03d1aae.png" src="../_images/0ad9a4820841e0a789531cccd4bfddfc45ef11093d441789c5a7c6daa03d1aae.png" />
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`Trainer.fit` stopped: `max_epochs=30` reached.
 </pre></div>
 </div>
 </div>
@@ -1645,11 +1646,6 @@ Predicted positiveness: 0.8728
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Device: mps
-</pre></div>
-</div>
-</div>
 </div>
 <section id="demonstration">
 <h3>Demonstration<a class="headerlink" href="#demonstration" title="Link to this heading">#</a></h3>
@@ -1661,14 +1657,6 @@ Predicted positiveness: 0.8728
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Seed set to 42
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>42
 </pre></div>
 </div>
 </div>
@@ -1716,9 +1704,6 @@ Predicted positiveness: 0.8728
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/e1bfb0ef612be7659d98cae2e0af0427f8ef193b2c2c52b0b8db609c4120d614.png" src="../_images/e1bfb0ef612be7659d98cae2e0af0427f8ef193b2c2c52b0b8db609c4120d614.png" />
-</div>
 </div>
 </section>
 <section id="patchify">
@@ -1762,9 +1747,6 @@ Predicted positiveness: 0.8728
 <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/f181e418f7d981a3c47fe71cef5ac968453cf849e4571917dd2fbbdb98be09b2.png" src="../_images/f181e418f7d981a3c47fe71cef5ac968453cf849e4571917dd2fbbdb98be09b2.png" />
 </div>
 </div>
 </section>
@@ -2004,9 +1986,6 @@ PE_{(pos,i)} = \begin{cases}
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/d5916c10c678d157bb6f510766e6d6103b1473a98de34ac66c63c6dc148eb4ca.png" src="../_images/d5916c10c678d157bb6f510766e6d6103b1473a98de34ac66c63c6dc148eb4ca.png" />
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2170,20 +2149,6 @@ PE_{(pos,i)} = \begin{cases}
                             <span class="p">},</span>
                             <span class="n">lr</span><span class="o">=</span><span class="mf">3e-4</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ViT results&quot;</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPU available: True (mps), used: False
-TPU available: False, using: 0 TPU cores
-HPU available: False, using: 0 HPUs
-Lightning automatically upgraded your loaded checkpoint from v1.6.4 to v2.5.0.post0. To apply the upgrade to your files permanently, run `python -m pytorch_lightning.utilities.upgrade_checkpoint ../data/checkpoints/ViT.ckpt`
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found pretrained model at ../data/checkpoints/ViT.ckpt, loading...
-</pre></div>
-</div>
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "525f660f843c4005a63ec48b546becef", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "df0a34abddd446e58d3c461f0463e395", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ViT results {&#39;test&#39;: 0.7713000178337097, &#39;val&#39;: 0.7781999707221985}
 </pre></div>
 </div>
 </div>
