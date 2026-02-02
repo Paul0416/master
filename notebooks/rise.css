@@ -1,0 +1,14 @@
+/* 1. Hide input ONLY in Code Cells */
+.rise-enabled .jp-CodeCell .jp-InputArea {
+    display: none !important;
+}
+
+/* 2. (Optional) Hide the "In [ ]:" prompt for cleaner slides */
+.rise-enabled .jp-CodeCell .jp-InputPrompt {
+    display: none !important;
+}
+
+/* 3. Ensure Markdown cells remain visible */
+.rise-enabled .jp-MarkdownCell {
+    display: block !important;
+}
